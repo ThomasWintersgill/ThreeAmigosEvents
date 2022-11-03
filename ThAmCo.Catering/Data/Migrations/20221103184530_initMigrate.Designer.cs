@@ -10,8 +10,8 @@ using ThAmCo.Catering.Data;
 namespace ThAmCo.Catering.Data.Migrations
 {
     [DbContext(typeof(CateringContext))]
-    [Migration("20221103112925_initialMigrate")]
-    partial class initialMigrate
+    [Migration("20221103184530_initMigrate")]
+    partial class initMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,19 +45,32 @@ namespace ThAmCo.Catering.Data.Migrations
                 {
                     b.Property<int>("FoodItemId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(3)
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<float>("UnitPrice")
-                        .HasColumnType("REAL");
+                    b.Property<int>("UnitPrice")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("FoodItemId");
 
                     b.ToTable("FoodItems");
+
+                    b.HasData(
+                        new
+                        {
+                            FoodItemId = 1,
+                            Description = "chips",
+                            UnitPrice = 8
+                        },
+                        new
+                        {
+                            FoodItemId = 2,
+                            Description = "sosig",
+                            UnitPrice = 6
+                        });
                 });
 
             modelBuilder.Entity("ThAmCo.Catering.Data.Menu", b =>
@@ -75,6 +88,18 @@ namespace ThAmCo.Catering.Data.Migrations
                     b.HasKey("MenuId");
 
                     b.ToTable("Menu");
+
+                    b.HasData(
+                        new
+                        {
+                            MenuId = 1,
+                            MenuName = "Breakfast Menu"
+                        },
+                        new
+                        {
+                            MenuId = 2,
+                            MenuName = "Brunch Menu"
+                        });
                 });
 
             modelBuilder.Entity("ThAmCo.Catering.Data.MenuFoodItem", b =>

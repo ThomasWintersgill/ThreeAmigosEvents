@@ -43,7 +43,6 @@ namespace ThAmCo.Catering.Data.Migrations
                 {
                     b.Property<int>("FoodItemId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(3)
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -87,6 +86,18 @@ namespace ThAmCo.Catering.Data.Migrations
                     b.HasKey("MenuId");
 
                     b.ToTable("Menu");
+
+                    b.HasData(
+                        new
+                        {
+                            MenuId = 1,
+                            MenuName = "Breakfast Menu"
+                        },
+                        new
+                        {
+                            MenuId = 2,
+                            MenuName = "Brunch Menu"
+                        });
                 });
 
             modelBuilder.Entity("ThAmCo.Catering.Data.MenuFoodItem", b =>

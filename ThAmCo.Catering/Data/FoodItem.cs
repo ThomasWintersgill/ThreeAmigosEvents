@@ -13,8 +13,8 @@ namespace ThAmCo.Catering.Data
 
 
         //validation? 
-        [MinLength(3), MaxLength(3)]
-        [Key]
+        
+        
         public int FoodItemId{ get; set; }
 
         [MaxLength(50)]
