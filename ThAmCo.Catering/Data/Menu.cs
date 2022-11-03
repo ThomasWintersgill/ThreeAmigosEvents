@@ -4,6 +4,12 @@ namespace ThAmCo.Catering.Data
 {
     public class Menu
     {
+        public Menu(int menuId, string menuName)
+        {
+            MenuId = menuId;
+            MenuName = menuName;
+        }
+
         [MinLength(3), MaxLength(3)]
         [Key]
         public int MenuId { get; set; }

@@ -4,6 +4,14 @@ namespace ThAmCo.Catering.Data
 {
     public class FoodItem
     {
+        public FoodItem(int foodItemId, string description, int unitPrice)
+        {
+            FoodItemId = foodItemId;
+            Description = description;
+            UnitPrice = unitPrice;
+        }
+
+
         //validation? 
         [MinLength(3), MaxLength(3)]
         [Key]
@@ -13,7 +21,7 @@ namespace ThAmCo.Catering.Data
         public string Description { get; set; }
 
         //need to take a look at this, why use float?
-        public float UnitPrice { get; set; }
+        public int UnitPrice { get; set; }
 
         public List<MenuFoodItem> Menus { get; set; }
     }

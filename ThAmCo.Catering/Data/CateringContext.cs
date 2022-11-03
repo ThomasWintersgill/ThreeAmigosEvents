@@ -49,6 +49,13 @@ namespace ThAmCo.Catering.Data
                 .WithMany(mf => mf.Menus)
                 .HasForeignKey(mf => mf.FoodItemId);
 
+            modelBuilder.Entity<FoodItem>().HasData(new FoodItem(1, "chips", 8),
+                                                    new FoodItem(2, "sosig", 6));
+
+            modelBuilder.Entity<Menu>().HasData(new Menu(1, "Breakfast Menu"),
+                                                new Menu(2, "Brunch Menu"));
+
+            
 
         }
     }
