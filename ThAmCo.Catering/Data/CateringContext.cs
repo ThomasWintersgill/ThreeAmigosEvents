@@ -55,7 +55,9 @@ namespace ThAmCo.Catering.Data
             modelBuilder.Entity<Menu>().HasData(new Menu(1, "Breakfast Menu"),
                                                 new Menu(2, "Brunch Menu"));
 
-            
+            modelBuilder.Entity<MenuFoodItem>().HasData(new MenuFoodItem(1, 2),
+                                                        new MenuFoodItem(1, 1));
+ 
 
         }
     }

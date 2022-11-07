@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,40 +44,47 @@ namespace ThAmCo.Catering.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MenuwithFoodItemDTO>> GetMenu(int id)
         {
+            //get the menu
+            var menu = _context.Menu.Find(id);
+            if (menu == null)
+            {
+                return NotFound();
+            }
+
+            //store the food items, basically a sql query, select the fooditems from the menus that have an id that matches above
             var menuitems = from foodItems in _context.FoodItems
                             where foodItems.Menus.Any(m => m.MenuId == id)
                             select foodItems;
 
-            var menu = _context.Menu.Find(id);
-
-   
-
+            //create a new menu dto
             ThAmCo.Catering.DTOs.MenuDTO menudto = new DTOs.MenuDTO();
-            //// constructing the Menu DTO
+            
+            
+            //set the menu dto variables to the variable from the menu that was input in the get request
             menudto.MenuName = menu.MenuName;
             menudto.MenuId = menu.MenuId;
 
-            //// Getting a list of food items for that menue
-            ThAmCo.Catering.DTOs.FoodItemsDTO foodItemsDTO = new DTOs.FoodItemsDTO();
-
            
+            //// Getting a list of food items for that menu
+            //create food items dto
+            ThAmCo.Catering.DTOs.FoodItemsDTO foodItemsDTO = new DTOs.FoodItemsDTO();
+            
+            //create the composite/main dto
+            ThAmCo.Catering.DTOs.MenuwithFoodItemDTO DTO = new DTOs.MenuwithFoodItemDTO();
 
-            //ThAmCo.Catering.DTOs.MenuwithFoodItemDTO DTO = new DTOs.MenuwithFoodItemDTO();
+            //set the dto menu to the menu
+            DTO.menu = menudto;
 
+            //put the food items into the main DTO
+            DTO.FoodItems = menuitems.Select(item => new FoodItemsDTO
+            {
+                FoodItemId = item.FoodItemId,
+                Description = item.Description,
+                Price = item.UnitPrice
 
+            }).ToList();
 
-
-
-
-            //DTO.menu = menudto;
-            //DTO.FoodItems = foodDto;
-
-            //if (menu == null)
-            //{
-            //    return NotFound();
-            //}
-
-            return null;
+            return DTO;
         }
 
         // PUT: api/Menus/5

@@ -10,8 +10,8 @@ using ThAmCo.Catering.Data;
 namespace ThAmCo.Catering.Data.Migrations
 {
     [DbContext(typeof(CateringContext))]
-    [Migration("20221107092143_initMigrate")]
-    partial class initMigrate
+    [Migration("20221107165935_MenuFIseedData")]
+    partial class MenuFIseedData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,8 +51,8 @@ namespace ThAmCo.Catering.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("REAL");
+                    b.Property<int>("UnitPrice")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("FoodItemId");
 
@@ -63,13 +63,13 @@ namespace ThAmCo.Catering.Data.Migrations
                         {
                             FoodItemId = 1,
                             Description = "chips",
-                            UnitPrice = 8.0
+                            UnitPrice = 8
                         },
                         new
                         {
                             FoodItemId = 2,
                             Description = "sosig",
-                            UnitPrice = 6.0
+                            UnitPrice = 6
                         });
                 });
 
@@ -115,6 +115,18 @@ namespace ThAmCo.Catering.Data.Migrations
                     b.HasIndex("MenuId");
 
                     b.ToTable("MenuFoodItems");
+
+                    b.HasData(
+                        new
+                        {
+                            FoodItemId = 2,
+                            MenuId = 1
+                        },
+                        new
+                        {
+                            FoodItemId = 1,
+                            MenuId = 1
+                        });
                 });
 
             modelBuilder.Entity("ThAmCo.Catering.Data.FoodBooking", b =>

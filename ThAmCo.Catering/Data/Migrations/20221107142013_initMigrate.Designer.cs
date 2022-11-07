@@ -10,8 +10,8 @@ using ThAmCo.Catering.Data;
 namespace ThAmCo.Catering.Data.Migrations
 {
     [DbContext(typeof(CateringContext))]
-    [Migration("20221107093432_intMod")]
-    partial class intMod
+    [Migration("20221107142013_initMigrate")]
+    partial class initMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

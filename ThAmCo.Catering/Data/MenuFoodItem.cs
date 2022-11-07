@@ -2,6 +2,12 @@
 {
     public class MenuFoodItem
     {
+        public MenuFoodItem(int menuId, int foodItemId)
+        {
+            MenuId = menuId;
+            FoodItemId = foodItemId;
+        }
+
         public int MenuId { get; set; }
         public Menu Menu { get; set; }
 

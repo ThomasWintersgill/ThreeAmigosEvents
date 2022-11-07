@@ -113,6 +113,18 @@ namespace ThAmCo.Catering.Data.Migrations
                     b.HasIndex("MenuId");
 
                     b.ToTable("MenuFoodItems");
+
+                    b.HasData(
+                        new
+                        {
+                            FoodItemId = 2,
+                            MenuId = 1
+                        },
+                        new
+                        {
+                            FoodItemId = 1,
+                            MenuId = 1
+                        });
                 });
 
             modelBuilder.Entity("ThAmCo.Catering.Data.FoodBooking", b =>
