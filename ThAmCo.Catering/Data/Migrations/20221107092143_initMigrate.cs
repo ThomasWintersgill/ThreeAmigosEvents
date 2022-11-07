@@ -15,7 +15,7 @@ namespace ThAmCo.Catering.Data.Migrations
                     FoodItemId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Description = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    UnitPrice = table.Column<int>(type: "INTEGER", nullable: false)
+                    UnitPrice = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,12 +83,12 @@ namespace ThAmCo.Catering.Data.Migrations
             migrationBuilder.InsertData(
                 table: "FoodItems",
                 columns: new[] { "FoodItemId", "Description", "UnitPrice" },
-                values: new object[] { 1, "chips", 8 });
+                values: new object[] { 1, "chips", 8.0 });
 
             migrationBuilder.InsertData(
                 table: "FoodItems",
                 columns: new[] { "FoodItemId", "Description", "UnitPrice" },
-                values: new object[] { 2, "sosig", 6 });
+                values: new object[] { 2, "sosig", 6.0 });
 
             migrationBuilder.InsertData(
                 table: "Menu",

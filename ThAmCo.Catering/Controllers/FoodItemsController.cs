@@ -57,7 +57,7 @@ namespace ThAmCo.Catering.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
                 if (!FoodItemExists(id))
                 {
@@ -65,6 +65,7 @@ namespace ThAmCo.Catering.Controllers
                 }
                 else
                 {
+                    var error = ex.Message;
                     throw;
                 }
             }
