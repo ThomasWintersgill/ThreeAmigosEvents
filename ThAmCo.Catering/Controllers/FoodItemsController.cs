@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Catering.Data;
+using ThAmCo.Catering.DTOs;
 
 namespace ThAmCo.Catering.Controllers
 {
@@ -18,27 +19,42 @@ namespace ThAmCo.Catering.Controllers
         public FoodItemsController(CateringContext context)
         {
             _context = context;
+            
         }
 
         // GET: api/FoodItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FoodItem>>> GetFoodItems()
+        public IQueryable<FoodItemsDTO> GetFoodItems()
         {
-            return await _context.FoodItems.ToListAsync();
+
+            var food = from fi in _context.FoodItems
+                       select new FoodItemsDTO
+                       {
+                           FoodItemId = fi.FoodItemId,
+                           Description = fi.Description,
+                           Price = fi.UnitPrice
+                       };
+
+            return food;
         }
 
         // GET: api/FoodItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FoodItem>> GetFoodItem(int id)
+        public async Task<ActionResult<FoodItemsDTO>> GetFoodItem(int id)
         {
-            var foodItem = await _context.FoodItems.FindAsync(id);
+            var foodItem = _context.FoodItems.Find(id);
 
             if (foodItem == null)
             {
                 return NotFound();
             }
 
-            return foodItem;
+            FoodItemsDTO DTO = new FoodItemsDTO();
+            DTO.FoodItemId = foodItem.FoodItemId;
+            DTO.Description = foodItem.Description;
+            DTO.Price = foodItem.UnitPrice;
+
+            return DTO;
         }
 
         // PUT: api/FoodItems/5
@@ -78,10 +94,20 @@ namespace ThAmCo.Catering.Controllers
         [HttpPost]
         public async Task<ActionResult<FoodItem>> PostFoodItem(FoodItem foodItem)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.FoodItems.Add(foodItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFoodItem", new { id = foodItem.FoodItemId }, foodItem);
+            //need to take a look at automapper for this install-package AutoMapper
+            FoodItemsDTO DTO = new FoodItemsDTO();
+            DTO.FoodItemId = foodItem.FoodItemId;
+            DTO.Description = foodItem.Description;
+            DTO.Price = foodItem.UnitPrice;
+
+            return CreatedAtAction("GetFoodItem", new { id = foodItem.FoodItemId }, DTO);
         }
 
         // DELETE: api/FoodItems/5
