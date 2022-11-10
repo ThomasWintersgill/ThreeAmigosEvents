@@ -1,3 +1,5 @@
+#nullable disable
+
 namespace ThAmCo.Events.Models
 {
     public class ErrorViewModel

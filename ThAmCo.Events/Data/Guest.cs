@@ -1,4 +1,6 @@
-﻿namespace ThAmCo.Events.Data
+﻿#nullable disable
+
+namespace ThAmCo.Events.Data
 {
     public class Guest
     {
@@ -8,6 +10,6 @@
 
         public string Surname { get; set; }
 
-        public List<Event> Events { get; set; }
+        public List<GuestBooking> Events { get; set; }
     }
 }

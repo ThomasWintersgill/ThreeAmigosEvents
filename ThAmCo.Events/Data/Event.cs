@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#nullable disable
+
+using System.ComponentModel.DataAnnotations;
+using ThAmCo.Catering.Data;
 
 namespace ThAmCo.Events.Data
 {
@@ -18,10 +21,13 @@ namespace ThAmCo.Events.Data
         //foreign key into the venues data model
         public string EventType { get; set; }
 
-        public Foodbooking FoodBooking
-        public List<Guest> Guests { get; set; }
+        #nullable enable
+        public FoodBooking? Foodbooking { get; set; }
+        #nullable disable
 
-        public List<Staff> Staffs { get; set; }
+        public List<GuestBooking> Guests { get; set; }
+
+        public List<Staffing> Staffs { get; set; }
 
 
 

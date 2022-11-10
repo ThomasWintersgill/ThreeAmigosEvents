@@ -16,5 +16,7 @@ namespace ThAmCo.Venues.Data
         public string Title { get; set; } = string.Empty;
 
         public List<Suitability>? SuitableVenues { get; set; }
+
+        
     }
 }

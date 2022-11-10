@@ -24,23 +24,20 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/Menus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Menu>>> GetMenu()
+        public async Task<ActionResult<IEnumerable<MenuDTO>>> GetMenu()
         {
-            return await _context.Menu.ToListAsync();
-            //ThAmCo.Catering.DTOs.MenuDTO menudto = new DTOs.MenuDTO();
-            //ThAmCo.Catering.DTOs.FoodItemsDTO menuItem = new DTOs.FoodItemsDTO();
-            //ThAmCo.Catering.DTOs.MenuwithFoodItemDTO DTO = new DTOs.MenuwithFoodItemDTO();
+            var AllMenus = await _context.Menu.ToListAsync();
 
-            //var mydata = await _context.Menu
-            //    .Include(f => f.FoodItems)
-            //    .ToListAsync();
+            var DTO = AllMenus.Select(item => new MenuDTO {
+                MenuId = item.MenuId,
+                MenuName = item.MenuName,
+            }).ToList();
 
-            //menudto.MenuName = mydata;
-
-            //return null;
+            return DTO;
         }
 
         // GET: api/Menus/5
+        //Menu with food items included
         [HttpGet("{id}")]
         public async Task<ActionResult<MenuwithFoodItemDTO>> GetMenu(int id)
         {
@@ -52,6 +49,7 @@ namespace ThAmCo.Catering.Controllers
             }
 
             //store the food items, basically a sql query, select the fooditems from the menus that have an id that matches above
+            //comparing this to barrys demo-- this is all done in a static method
             var menuitems = from foodItems in _context.FoodItems
                             where foodItems.Menus.Any(m => m.MenuId == id)
                             select foodItems;
@@ -75,7 +73,7 @@ namespace ThAmCo.Catering.Controllers
             //set the dto menu to the menu
             DTO.menu = menudto;
 
-            //put the food items into the main DTO
+            //put the food items into the main DTO, this DTO has a list property that is populated
             DTO.FoodItems = menuitems.Select(item => new FoodItemsDTO
             {
                 FoodItemId = item.FoodItemId,

@@ -1,4 +1,6 @@
-﻿namespace ThAmCo.Events.Data
+﻿#nullable disable
+
+namespace ThAmCo.Events.Data
 {
     public class Staffing
     {

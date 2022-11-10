@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using ThAmCo.Events.Data;
 namespace ThAmCo.Catering.Data
 {
     public class FoodBooking
@@ -15,5 +15,8 @@ namespace ThAmCo.Catering.Data
         
         public int MenuId { get; set; }
         public Menu Menu { get; set; }
+
+        public EventId EventId { get; set; }
+        public Event Event { get; set; }
     }
 }

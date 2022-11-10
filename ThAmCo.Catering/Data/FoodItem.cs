@@ -10,17 +10,12 @@ namespace ThAmCo.Catering.Data
             Description = description;
             UnitPrice = unitPrice;
         }
-
-
-        //validation? 
-        
-        
         public int FoodItemId{ get; set; }
 
         [MaxLength(50)]
         public string Description { get; set; }
 
-        //need to take a look at this, why use float?
+        //pence stored as integer
         public int UnitPrice { get; set; }
 
         public List<MenuFoodItem> Menus { get; set; }

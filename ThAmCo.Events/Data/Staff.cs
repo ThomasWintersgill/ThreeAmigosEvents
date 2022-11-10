@@ -1,4 +1,6 @@
-﻿namespace ThAmCo.Events.Data
+﻿#nullable disable
+
+namespace ThAmCo.Events.Data
 {
     public class Staff
     {
@@ -6,6 +8,6 @@
 
         public String StaffName { get; set; }
 
-        public List<Event> Events { get; set; }
+        public List<Staffing> Events { get; set; }
     }
 }
