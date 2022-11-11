@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ThAmCo.Events.Data;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ThAmCo.Catering.Data
 {
     public class FoodBooking
@@ -8,6 +9,8 @@ namespace ThAmCo.Catering.Data
         [Key]
         public int FoodBookingId { get; set; }
 
+        //[ForeignKey("Event")]
+        //this is the foreign key into event?
         public int ClientReferenceId { get; set; }
 
         public int NumberOfGuests { get; set; }
@@ -16,7 +19,7 @@ namespace ThAmCo.Catering.Data
         public int MenuId { get; set; }
         public Menu Menu { get; set; }
 
-        public EventId EventId { get; set; }
-        public Event Event { get; set; }
+        
+     
     }
 }

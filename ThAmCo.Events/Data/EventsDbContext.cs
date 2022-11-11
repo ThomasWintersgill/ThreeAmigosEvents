@@ -69,9 +69,15 @@ namespace ThAmCo.Events.Data
             modelBuilder.Entity<MenuFoodItem>()
                 .HasKey(mf => new { mf.FoodItemId, mf.MenuId });
 
+            //using fluent to configure ClientReferenceId to be used as foreign key into Event
+            modelBuilder.Entity<FoodBooking>()
+                .HasOne<Event>()
+                .WithMany()
+                .HasForeignKey(fb => fb.ClientReferenceId);
+
             modelBuilder.Entity<Guest>()
                 .HasData(
-                    new Guest { GuestId = 1, ForeName = "Thomas", Surname = "Wintersgill" }
+                    new Guest ( 1, "Thomas", "Wintersgill" )
 
                 );
 

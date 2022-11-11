@@ -1,9 +1,16 @@
 #nullable disable
 
+using ThAmCo.Catering.Data;
+using ThAmCo.Events.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<EventsDbContext>();
+
+
 
 var app = builder.Build();
 

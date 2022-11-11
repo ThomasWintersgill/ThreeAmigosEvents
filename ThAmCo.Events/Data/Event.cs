@@ -21,6 +21,8 @@ namespace ThAmCo.Events.Data
         //foreign key into the venues data model
         public string EventType { get; set; }
 
+       
+
         #nullable enable
         public FoodBooking? Foodbooking { get; set; }
         #nullable disable

@@ -3,7 +3,10 @@
 namespace ThAmCo.Events.Data
 {
     public class GuestBooking
+
+
     {
+
         public int EventID { get; set; }
         public Event Event { get; set; }
 
