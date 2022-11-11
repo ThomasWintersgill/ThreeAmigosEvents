@@ -29,7 +29,7 @@ namespace ThAmCo.Events.Data
 
         public List<GuestBooking> Guests { get; set; }
 
-        public List<Staffing> Staffs { get; set; }
+        public List<Staffing> Staff { get; set; }
 
 
 

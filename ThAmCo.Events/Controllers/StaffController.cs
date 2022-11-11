@@ -6,21 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
+using static ThAmCo.Events.Models.ViewModels;
 
 namespace ThAmCo.Events.Controllers
 {
-    public class StaffsController : Controller
+    public class StaffController : Controller
     {
         private readonly EventsDbContext _context;
 
-        public StaffsController(EventsDbContext context)
+        public StaffController(EventsDbContext context)
         {
             _context = context;
         }
 
         // GET: Staffs
         public async Task<IActionResult> Index()
+
         {
+            
               return View(await _context.Staff.ToListAsync());
         }
 
@@ -156,5 +159,38 @@ namespace ThAmCo.Events.Controllers
         {
           return _context.Staff.Any(e => e.StaffId == id);
         }
+
+        public async Task<IActionResult> Events(int? id)
+        {
+            if (id == null || _context.Staff == null)
+            {
+                return NotFound();
+            }
+
+            var staff = await _context.Staff.FirstOrDefaultAsync(m => m.StaffId == id);
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            StaffEventsVm vm = new StaffEventsVm();
+            vm.Events = GetStaffEvents(id);
+            vm.staff = staff;
+
+            return View(vm);
+        }
+
+        //private method to get the events that staff member is involved with
+        private List<Event> GetStaffEvents(int? id)
+        {
+            var Events = from Event in _context.Events
+                            where Event.Staff.Any(c => c.StaffId == id)
+                            select Event;
+
+            List<Event> EventsList = Events.ToList();
+            return EventsList;
+        }
+
+
     }
 }

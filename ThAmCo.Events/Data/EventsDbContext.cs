@@ -62,7 +62,7 @@ namespace ThAmCo.Events.Data
 
             modelBuilder.Entity<Staffing>()
                 .HasOne(e => e.Event)
-                .WithMany(s => s.Staffs)
+                .WithMany(s => s.Staff)
                 .HasForeignKey(e => e.EventId);
 
             //Had to put this in as i was getting an error saying that menuFoodItem needed a primary key??
