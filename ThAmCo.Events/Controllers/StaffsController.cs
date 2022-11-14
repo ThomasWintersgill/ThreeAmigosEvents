@@ -12,13 +12,16 @@ namespace ThAmCo.Events.Controllers
 {
     public class StaffsController : Controller
     {
+        #region DbContextInjection
         private readonly EventsDbContext _context;
 
         public StaffsController(EventsDbContext context)
         {
             _context = context;
         }
+        #endregion
 
+        #region CRUD
         // GET: Staffs
         public async Task<IActionResult> Index()
         {
@@ -157,7 +160,12 @@ namespace ThAmCo.Events.Controllers
         {
           return _context.Staff.Any(e => e.StaffId == id);
         }
+        #endregion
 
+        #region ManageStaffEvents
+
+        //Get all the events that this staff member is booked onto.
+        //The name of this method is the associated VIEW --"Events".
         public async Task<IActionResult> Events(int? id)
         {
             if (id == null || _context.Staff == null)
@@ -171,20 +179,21 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
 
+            //Create the view model Staff with a list of events.
             StaffEventsVM vm = new StaffEventsVM();
             vm.events = GetStaffEvents(id);
             vm.staff = staff;
 
+            //View is returned
             return View(vm);
         }
 
         // GET: Staffs/Create
         public async Task<IActionResult> AddEvent(int? id)
         {
-            // who wants the workshop
+            //Find the staff member with the correct ID
             Staff staff = _context.Staff.FirstOrDefault(m => m.StaffId == id);
 
-            /// Get a list of workshops they have yet to associate with
             // Get their Events
             var StaffEvents = GetStaffEvents(id);
             // Get all the Events
@@ -192,14 +201,13 @@ namespace ThAmCo.Events.Controllers
             //Only show the Events that they are not already signed up to e.g allEvents-Current Events
             var notStaffEvents = AllEvents.Except(StaffEvents);
 
-            /// Create and Populate a VM with a Selectable List
-
+            //Create the view model for a list of Events that are bookable for that staff member.
             StaffEventsListVM vm = AddEventsViewModel(staff, notStaffEvents);
 
             return View(vm);
         }
 
-        //need to be looking in here to fix the issue with relationship not being created
+        //Create the relationship between staff and events, take the staffEventsList VM selection as input.
         [HttpPost]
         public IActionResult AddEvent(StaffEventsListVM vm)
         {
@@ -224,6 +232,10 @@ namespace ThAmCo.Events.Controllers
             }
 
         }
+
+        #endregion
+
+        #region private methods
         //private method to get the events that staff member is involved with
         private List<Event> GetStaffEvents(int? id)
         {
@@ -256,6 +268,7 @@ namespace ThAmCo.Events.Controllers
             vm.Events.AddRange(selectItemList);
             return vm;
         }
+        #endregion
 
     }
 }
