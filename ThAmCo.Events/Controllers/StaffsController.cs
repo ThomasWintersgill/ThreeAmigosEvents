@@ -22,10 +22,10 @@ namespace ThAmCo.Events.Controllers
         #endregion
 
         #region CRUD
-        // GET: Staffs
+        //GET: Staffs
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Staff.ToListAsync());
+            return View(await _context.Staff.ToListAsync());
         }
 
         // GET: Staffs/Details/5
@@ -219,7 +219,7 @@ namespace ThAmCo.Events.Controllers
             var staff = vm.staff;
             int EventId = Convert.ToInt32(selectedEvent);
             int staffId = Convert.ToInt32(staff.StaffId);
-            Staffing staffing = new Staffing (EventId, staffId);
+            Staffing staffing = new Staffing(staffId, EventId);
             try
             {
                 _context.Add(staffing);
@@ -233,11 +233,34 @@ namespace ThAmCo.Events.Controllers
 
         }
 
-        #endregion
+        //Create the relationship between staff and events, take the staffEventsList VM selection as input.
+        [HttpPost]
+        public async Task<IActionResult> Remove(int? eventId, int? staffId)
+        {
+            if (eventId == null || staffId == null || _context.staffing == null)
+            {
+                return NotFound();
+            }
 
-        #region private methods
-        //private method to get the events that staff member is involved with
-        private List<Event> GetStaffEvents(int? id)
+            var staffing = _context.staffing
+                .FirstOrDefaultAsync(m => m.StaffId == staffId && m.EventId == eventId);
+            if (staffing == null)
+            {
+                return NotFound();
+            }
+            EventStaffItemVM vm = new EventStaffItemVM();
+            vm.staff = new Staff();
+            vm.Event = new Event();
+            vm.staff = await _context.Staff.FindAsync(staffId);
+            vm.Event = await _context.Events.FindAsync(eventId);
+
+            return View(vm);
+        }
+            #endregion
+
+            #region private methods
+            //private method to get the events that staff member is involved with
+            private List<Event> GetStaffEvents(int? id)
         {
             var Events = from Event in _context.Events
                          where Event.Staff.Any(c => c.StaffId == id)
@@ -255,14 +278,9 @@ namespace ThAmCo.Events.Controllers
             vm.Events = EventsList;
             vm.staff = staff;
 
-            // Add a Row at the top as a promt
+            //Add prompt
             vm.Events.Add(new SelectListItem { Text = "--Select an Event--", Value = "0" });
 
-            // Add a Row for each of the Worksheets to be selectable
-            //foreach (WorkshopModel.Workshop item in notMyWorkshops)
-            //{
-            //    vm.Workshops.Add(new SelectListItem { Text = item.Name, Value = item.WorkshopId.ToString() });
-            //}
             var selectItemList = notStaffEvents.Select(item => new SelectListItem
             { Text = item.EventTitle, Value = item.EventId.ToString() });
             vm.Events.AddRange(selectItemList);

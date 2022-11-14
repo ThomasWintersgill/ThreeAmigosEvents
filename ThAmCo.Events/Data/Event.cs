@@ -17,15 +17,8 @@ namespace ThAmCo.Events.Data
         [DataType(DataType.Time)]
         public DateTime EventTime { get; set; }
 
-        
         //foreign key into the venues data model
         public string EventType { get; set; }
-
-       
-
-        #nullable enable
-        public FoodBooking? Foodbooking { get; set; }
-        #nullable disable
 
         public List<GuestBooking> Guests { get; set; }
 

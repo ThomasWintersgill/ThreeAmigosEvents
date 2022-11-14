@@ -9,8 +9,6 @@ namespace ThAmCo.Catering.Data
         [Key]
         public int FoodBookingId { get; set; }
 
-        //[ForeignKey("Event")]
-        //this is the foreign key into event?
         public int ClientReferenceId { get; set; }
 
         public int NumberOfGuests { get; set; }
