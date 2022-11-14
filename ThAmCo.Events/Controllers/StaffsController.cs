@@ -233,8 +233,7 @@ namespace ThAmCo.Events.Controllers
 
         }
 
-        //Create the relationship between staff and events, take the staffEventsList VM selection as input.
-        [HttpPost]
+        //Remove an event from a staff member.
         public async Task<IActionResult> Remove(int? eventId, int? staffId)
         {
             if (eventId == null || staffId == null || _context.staffing == null)
@@ -256,11 +255,29 @@ namespace ThAmCo.Events.Controllers
 
             return View(vm);
         }
-            #endregion
 
-            #region private methods
-            //private method to get the events that staff member is involved with
-            private List<Event> GetStaffEvents(int? id)
+        [HttpPost, ActionName("Remove")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveConfirmed(EventStaffItemVM vm)
+        {
+            if (_context.staffing == null)
+            {
+                return Problem("Entity set 'staffing'  is null.");
+            }
+            var workshopStaff = await _context.staffing.FindAsync(vm.workshop.WorkshopId, vm.staff.StaffId);
+            if (workshopStaff != null)
+            {
+                _context.WorkshopStaff.Remove(workshopStaff);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region private methods
+        //private method to get the events that staff member is involved with
+        private List<Event> GetStaffEvents(int? id)
         {
             var Events = from Event in _context.Events
                          where Event.Staff.Any(c => c.StaffId == id)
