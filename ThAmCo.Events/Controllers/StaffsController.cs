@@ -241,21 +241,28 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
 
+            //get the staffing relationship that matches the staffID and eventID
             var staffing = _context.staffing
                 .FirstOrDefaultAsync(m => m.StaffId == staffId && m.EventId == eventId);
             if (staffing == null)
             {
                 return NotFound();
             }
+
+            //create a new view model
             EventStaffItemVM vm = new EventStaffItemVM();
+            //populate the view model with the database model
             vm.staff = new Staff();
             vm.Event = new Event();
+            //modify the view model to match the data of the relationship that needs to be deleted
             vm.staff = await _context.Staff.FindAsync(staffId);
             vm.Event = await _context.Events.FindAsync(eventId);
 
+            //then return the "Remove" view with a prompt asking the user if they would like to remove this item
             return View(vm);
         }
 
+        //Takes the view model from above to delete a relationship
         [HttpPost, ActionName("Remove")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveConfirmed(EventStaffItemVM vm)
@@ -264,10 +271,10 @@ namespace ThAmCo.Events.Controllers
             {
                 return Problem("Entity set 'staffing'  is null.");
             }
-            var workshopStaff = await _context.staffing.FindAsync(vm.workshop.WorkshopId, vm.staff.StaffId);
+            var workshopStaff = await _context.staffing.FindAsync(vm.staff.StaffId, vm.Event.EventId );
             if (workshopStaff != null)
             {
-                _context.WorkshopStaff.Remove(workshopStaff);
+                _context.staffing.Remove(workshopStaff);
             }
 
             await _context.SaveChangesAsync();
