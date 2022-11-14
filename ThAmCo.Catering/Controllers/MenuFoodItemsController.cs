@@ -113,6 +113,28 @@ namespace ThAmCo.Catering.Controllers
             return NoContent();
         }
 
+        //Remove FoodItem from a menu
+        [HttpDelete()]
+        public async Task<IActionResult> RemoveFoodItem(int menuId, int FoodItemId)
+        {
+            if (menuId == null || FoodItemId == null || _context.MenuFoodItems == null)
+            {
+                return NotFound();
+            }
+
+            var MenuFoodITems = await _context.MenuFoodItems
+
+                .FirstOrDefaultAsync(m => m.MenuId == menuId && m.FoodItemId == FoodItemId);
+            if (MenuFoodITems == null)
+            {
+                return NotFound();
+            }
+
+            _context.MenuFoodItems.Remove(MenuFoodITems);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
         private bool MenuFoodItemExists(int id)
         {
             return _context.MenuFoodItems.Any(e => e.FoodItemId == id);
