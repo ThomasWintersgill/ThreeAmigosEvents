@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ThAmCo.Events.Models;
+using ThAmCo.Events.ServiceLayer;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -9,10 +11,29 @@ namespace ThAmCo.Events.Controllers
 
         public CateringController()
         {
-            client = new HttpClient();
-            client.BaseAddress = new System.Uri("https://localhost:7090/");
-            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+            client = Service.ServiceClient();
         }
+
+        public async Task<ActionResult> Menus()
+        {
+            IEnumerable<MenuDTO> menus = await Service.GetMenu(client);
+
+            if ( menus == null)
+            {
+                return BadRequest();
+            }
+
+            var vm = menus.Select(item => new MenuVM
+            {
+                MenuId = item.MenuId,
+                MenuName = item.MenuName
+            }).ToList();
+
+            return View(vm);
+        }
+
+
+
 
         // GET: CateringController
         public ActionResult Index()

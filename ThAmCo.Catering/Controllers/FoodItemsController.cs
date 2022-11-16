@@ -24,11 +24,11 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/FoodItems
         [HttpGet]
-        public IQueryable<FoodItemsDTO> GetFoodItems()
+        public IQueryable<FoodItemDTO> GetFoodItems()
         {
 
             var food = from fi in _context.FoodItems
-                       select new FoodItemsDTO
+                       select new FoodItemDTO
                        {
                            FoodItemId = fi.FoodItemId,
                            Description = fi.Description,
@@ -40,7 +40,7 @@ namespace ThAmCo.Catering.Controllers
 
         // GET: api/FoodItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FoodItemsDTO>> GetFoodItem(int id)
+        public async Task<ActionResult<FoodItemDTO>> GetFoodItem(int id)
         {
             var foodItem = _context.FoodItems.Find(id);
 
@@ -49,7 +49,7 @@ namespace ThAmCo.Catering.Controllers
                 return NotFound();
             }
 
-            FoodItemsDTO DTO = new FoodItemsDTO();
+            FoodItemDTO DTO = new FoodItemDTO();
             DTO.FoodItemId = foodItem.FoodItemId;
             DTO.Description = foodItem.Description;
             DTO.Price = foodItem.UnitPrice;
@@ -102,7 +102,7 @@ namespace ThAmCo.Catering.Controllers
             await _context.SaveChangesAsync();
 
             //need to take a look at automapper for this install-package AutoMapper
-            FoodItemsDTO DTO = new FoodItemsDTO();
+            FoodItemDTO DTO = new FoodItemDTO();
             DTO.FoodItemId = foodItem.FoodItemId;
             DTO.Description = foodItem.Description;
             DTO.Price = foodItem.UnitPrice;

@@ -1,8 +1,8 @@
-﻿namespace ThAmCo.Catering.DTOs
+﻿namespace ThAmCo.Events.ServiceLayer
 {
-    public class FoodItemsDTO
+    public class FoodItemDTO
     {
-        public FoodItemsDTO() { }
+        public FoodItemDTO() { }
 
         public int FoodItemId { get; set; }
         public string Description { get; set; }

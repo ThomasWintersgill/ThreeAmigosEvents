@@ -65,7 +65,7 @@ namespace ThAmCo.Catering.Controllers
            
             //// Getting a list of food items for that menu
             //create food items dto
-            ThAmCo.Catering.DTOs.FoodItemsDTO foodItemsDTO = new DTOs.FoodItemsDTO();
+            ThAmCo.Catering.DTOs.FoodItemDTO foodItemsDTO = new DTOs.FoodItemDTO();
             
             //create the composite/main dto
             ThAmCo.Catering.DTOs.MenuwithFoodItemDTO DTO = new DTOs.MenuwithFoodItemDTO();
@@ -74,7 +74,7 @@ namespace ThAmCo.Catering.Controllers
             DTO.menu = menudto;
 
             //put the food items into the main DTO, this DTO has a list property that is populated
-            DTO.FoodItems = menuitems.Select(item => new FoodItemsDTO
+            DTO.FoodItems = menuitems.Select(item => new FoodItemDTO
             {
                 FoodItemId = item.FoodItemId,
                 Description = item.Description,
