@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ThAmCo.Catering.Controllers;
 
 namespace ThAmCo.Catering.Data
 {
@@ -29,6 +30,8 @@ namespace ThAmCo.Catering.Data
 
             optionsBuilder.UseSqlite($"Data Source = {DbPath}");
 
+            
+
         }
 
         //seed data
@@ -49,13 +52,23 @@ namespace ThAmCo.Catering.Data
                 .WithMany(mf => mf.Menus)
                 .HasForeignKey(mf => mf.FoodItemId);
 
-           
+            modelBuilder.Entity<FoodItem>()
+                .Property(fc => fc.Category)
+                .HasConversion<string>()
+                .HasMaxLength(50);
 
-            modelBuilder.Entity<FoodItem>().HasData(new FoodItem(1, "chips", 8),
-                                                    new FoodItem(2, "sosig", 6));
 
-            modelBuilder.Entity<Menu>().HasData(new Menu(1, "Breakfast Menu"),
-                                                new Menu(2, "Brunch Menu"));
+           modelBuilder.Entity<FoodItem>().HasData(
+                                                    new FoodItem (1, "chips", FoodCategory.Side, "lovely chips", 250, true, new DateTime(2015, 12, 25))
+
+                                                    ,new FoodItem(2, "sosig", FoodCategory.Entree, "just a sosig", 300, false, new DateTime(2015, 12, 25))
+                                                    
+                                                   );
+
+            modelBuilder.Entity<Menu>().HasData(new Menu(1, "Breakfast Menu", new DateTime(2015, 12, 25)),
+                                                new Menu(2, "Brunch Menu", new DateTime(2015, 12, 25))
+                                                
+                                                );
 
             modelBuilder.Entity<MenuFoodItem>().HasData(new MenuFoodItem(1, 2),
                                                         new MenuFoodItem(1, 1));

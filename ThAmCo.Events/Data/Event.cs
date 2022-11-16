@@ -9,6 +9,8 @@ namespace ThAmCo.Events.Data
     {
         public int EventId { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string EventTitle { get; set; }
 
         [DataType(DataType.Date)]
@@ -17,6 +19,10 @@ namespace ThAmCo.Events.Data
         [DataType(DataType.Time)]
         public DateTime EventTime { get; set; }
 
+        [Required]
+        public bool HasFirstAider { get; set; }
+
+        [Required]
         //foreign key into the venues data model
         public string EventType { get; set; }
 

@@ -11,6 +11,7 @@ namespace ThAmCo.Catering.Data
 
         public int ClientReferenceId { get; set; }
 
+        [Range(1, 100)]
         public int NumberOfGuests { get; set; }
 
         

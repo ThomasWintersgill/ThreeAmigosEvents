@@ -46,9 +46,25 @@ namespace ThAmCo.Events.Data.Migrations
                 {
                     b.Property<int>("FoodItemId")
                         .ValueGeneratedOnAdd()
+                        .HasMaxLength(3)
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsVegan")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
@@ -66,6 +82,9 @@ namespace ThAmCo.Events.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(3)
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("MenuName")
                         .IsRequired()
@@ -105,17 +124,18 @@ namespace ThAmCo.Events.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EventTitle")
+                        .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EventType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("FoodBookingId")
+                    b.Property<bool>("HasFirstAider")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("EventId");
-
-                    b.HasIndex("FoodBookingId");
 
                     b.ToTable("Events");
                 });
@@ -226,15 +246,6 @@ namespace ThAmCo.Events.Data.Migrations
                     b.Navigation("FoodItem");
 
                     b.Navigation("Menu");
-                });
-
-            modelBuilder.Entity("ThAmCo.Events.Data.Event", b =>
-                {
-                    b.HasOne("ThAmCo.Catering.Data.FoodBooking", "Foodbooking")
-                        .WithMany()
-                        .HasForeignKey("FoodBookingId");
-
-                    b.Navigation("Foodbooking");
                 });
 
             modelBuilder.Entity("ThAmCo.Events.Data.GuestBooking", b =>
