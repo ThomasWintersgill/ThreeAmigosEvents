@@ -32,6 +32,25 @@ namespace ThAmCo.Events.Controllers
             return View(vm);
         }
 
+        public async Task<ActionResult> MenuDetails(int id)
+        {
+            IEnumerable<MenuwithFoodItemDTO> menu = await Service.GetMenuFoodItems(client);
+
+            if (menu == null)
+            {
+                return BadRequest();
+            }
+            var vm = menu.Select(item => new MenuVM
+            {
+                MenuId = item.menu
+                
+            }).ToList();
+
+
+
+            return View(vm);
+        }
+
 
 
 
@@ -42,7 +61,7 @@ namespace ThAmCo.Events.Controllers
         }
 
         // GET: CateringController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult MenuDetails(int id)
         {
             return View();
         }
