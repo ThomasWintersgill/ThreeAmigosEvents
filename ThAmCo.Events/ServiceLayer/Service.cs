@@ -24,7 +24,7 @@ namespace ThAmCo.Events.ServiceLayer
             }
             else
             {
-                Debug.WriteLine("Index recieved a bad response");
+                Debug.WriteLine("Index received a bad response");
             }
 
             return menu;

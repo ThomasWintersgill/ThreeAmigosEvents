@@ -15,10 +15,11 @@ namespace ThAmCo.Events.Data.Migrations
                 {
                     EventId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    EventTitle = table.Column<string>(type: "TEXT", nullable: true),
+                    EventTitle = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     EventDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EventTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EventType = table.Column<string>(type: "TEXT", nullable: true)
+                    HasFirstAider = table.Column<bool>(type: "INTEGER", nullable: false),
+                    EventType = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +46,8 @@ namespace ThAmCo.Events.Data.Migrations
                 {
                     StaffId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    StaffName = table.Column<string>(type: "TEXT", nullable: true)
+                    Forename = table.Column<string>(type: "TEXT", nullable: true),
+                    Surname = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,6 +101,11 @@ namespace ThAmCo.Events.Data.Migrations
                         principalColumn: "StaffId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Guests",
+                columns: new[] { "GuestId", "ForeName", "Surname" },
+                values: new object[] { 1, "Thomas", "Wintersgill" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GuestBookings_GuestID",

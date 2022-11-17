@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ThAmCo.Catering\ThAmCo.Catering.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>

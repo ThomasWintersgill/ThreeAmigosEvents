@@ -17,100 +17,6 @@ namespace ThAmCo.Events.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
 
-            modelBuilder.Entity("ThAmCo.Catering.Data.FoodBooking", b =>
-                {
-                    b.Property<int>("FoodBookingId")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(3)
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ClientReferenceId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MenuId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NumberOfGuests")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("FoodBookingId");
-
-                    b.HasIndex("ClientReferenceId");
-
-                    b.HasIndex("MenuId");
-
-                    b.ToTable("FoodBooking");
-                });
-
-            modelBuilder.Entity("ThAmCo.Catering.Data.FoodItem", b =>
-                {
-                    b.Property<int>("FoodItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(3)
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsVegan")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UnitPrice")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("FoodItemId");
-
-                    b.ToTable("FoodItem");
-                });
-
-            modelBuilder.Entity("ThAmCo.Catering.Data.Menu", b =>
-                {
-                    b.Property<int>("MenuId")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(3)
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MenuName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("MenuId");
-
-                    b.ToTable("Menu");
-                });
-
-            modelBuilder.Entity("ThAmCo.Catering.Data.MenuFoodItem", b =>
-                {
-                    b.Property<int>("FoodItemId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MenuId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("FoodItemId", "MenuId");
-
-                    b.HasIndex("MenuId");
-
-                    b.ToTable("MenuFoodItem");
-                });
-
             modelBuilder.Entity("ThAmCo.Events.Data.Event", b =>
                 {
                     b.Property<int>("EventId")
@@ -212,42 +118,6 @@ namespace ThAmCo.Events.Data.Migrations
                     b.ToTable("staffing");
                 });
 
-            modelBuilder.Entity("ThAmCo.Catering.Data.FoodBooking", b =>
-                {
-                    b.HasOne("ThAmCo.Events.Data.Event", null)
-                        .WithMany()
-                        .HasForeignKey("ClientReferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ThAmCo.Catering.Data.Menu", "Menu")
-                        .WithMany()
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Menu");
-                });
-
-            modelBuilder.Entity("ThAmCo.Catering.Data.MenuFoodItem", b =>
-                {
-                    b.HasOne("ThAmCo.Catering.Data.FoodItem", "FoodItem")
-                        .WithMany("Menus")
-                        .HasForeignKey("FoodItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ThAmCo.Catering.Data.Menu", "Menu")
-                        .WithMany("FoodItems")
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FoodItem");
-
-                    b.Navigation("Menu");
-                });
-
             modelBuilder.Entity("ThAmCo.Events.Data.GuestBooking", b =>
                 {
                     b.HasOne("ThAmCo.Events.Data.Event", "Event")
@@ -284,16 +154,6 @@ namespace ThAmCo.Events.Data.Migrations
                     b.Navigation("Event");
 
                     b.Navigation("Staff");
-                });
-
-            modelBuilder.Entity("ThAmCo.Catering.Data.FoodItem", b =>
-                {
-                    b.Navigation("Menus");
-                });
-
-            modelBuilder.Entity("ThAmCo.Catering.Data.Menu", b =>
-                {
-                    b.Navigation("FoodItems");
                 });
 
             modelBuilder.Entity("ThAmCo.Events.Data.Event", b =>

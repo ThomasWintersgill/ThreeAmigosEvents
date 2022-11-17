@@ -14,7 +14,7 @@ namespace ThAmCo.Events.Controllers
             client = Service.ServiceClient();
         }
 
-        public async Task<ActionResult> Menus()
+        public async Task<ActionResult> MenuIndex()
         {
             IEnumerable<MenuDTO> menus = await Service.GetMenu(client);
 
