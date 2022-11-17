@@ -31,6 +31,8 @@ namespace ThAmCo.Catering.Controllers
                        select new FoodItemDTO
                        {
                            FoodItemId = fi.FoodItemId,
+                           Title = fi.Title,
+                           isVegan = fi.IsVegan,
                            Description = fi.Description,
                            Price = fi.UnitPrice
                        };

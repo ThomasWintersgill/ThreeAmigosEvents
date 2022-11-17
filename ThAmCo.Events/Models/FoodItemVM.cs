@@ -1,24 +1,13 @@
-﻿using ThAmCo.Catering.Data;
+﻿using System.ComponentModel.DataAnnotations;
+using ThAmCo.Catering.Data;
 using ThAmCo.Events.Data;
+
 
 namespace ThAmCo.Events.Models
 {
-    public class MenuVM
+    public class FoodItemDTO
     {
-        public MenuVM()
-        {
-        }
-
-        public int MenuId { get; set; }
-
-        public string MenuName  { get; set; }
-
-        public List<FoodItem> FoodItems { get; set; }
-    }
-
-    public class FoodItemVM
-    {
-        public FoodItemVM() { }
+        public FoodItemDTO() { }
 
         public int FoodItemId { get; set; }
         public string Title { get; set; }

@@ -38,40 +38,38 @@ namespace ThAmCo.Events.ServiceLayer
             return menu;
         }
 
-        public static async Task<ActionResult> GetMenuFoodItems(HttpClient client, int id)
-        {
-            MenuwithFoodItemDTO menuFoodItems = new MenuwithFoodItemDTO();
-            string url = "api/Menus" + id.ToString();
+        //public static async Task<ActionResult> GetMenuFoodItems(HttpClient client, int id)
+        //{
+        //    MenuwithFoodItemDTO menuFoodItems = new MenuwithFoodItemDTO();
+        //    string url = "api/Menus" + id.ToString();
 
-            HttpResponseMessage response = await client.GetAsync(url);
+        //    HttpResponseMessage response = await client.GetAsync(url);
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        menuFoodItems = await response.Content.ReadAsAsync<MenuwithFoodItemDTO>;
+        //    }
+        //    else
+        //    {
+        //        Debug.WriteLine("Index received a bad response");
+        //    }
+
+        //    return menuFoodItems;
+        //}
+
+        public static async Task<IEnumerable<FoodItemDTO>> GetFoodItem(HttpClient client)
+        {
+            IEnumerable<FoodItemDTO> Fooditem = new List<FoodItemDTO>();
+            HttpResponseMessage response = await client.GetAsync("api/FoodItems");
             if (response.IsSuccessStatusCode)
             {
-                menuFoodItems = await response.Content.ReadAsAsync<MenuwithFoodItemDTO>;
+                Fooditem = await response.Content.ReadAsAsync<IEnumerable<FoodItemDTO>>();
             }
             else
             {
                 Debug.WriteLine("Index received a bad response");
             }
 
-            return menuFoodItems;
-        }
-
-        public static async Task<IEnumerable<FoodItemDTO>> GetFoodItem(HttpClient client, int id)
-        {
-            IEnumerable<FoodItemDTO> menuWithFood = new List<FoodItemDTO>();
-            string url = "api/Menus" +id.ToString();
-
-            HttpResponseMessage response = await client.GetAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                menuWithFood = await response.Content.ReadAsAsync<IEnumerable<FoodItemDTO>>();
-            }
-            else
-            {
-                Debug.WriteLine("Index received a bad response");
-            }
-
-            return menuWithFood;
+            return Fooditem;
 
         }
 

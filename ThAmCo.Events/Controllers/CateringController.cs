@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ThAmCo.Events.Models;
 using ThAmCo.Events.ServiceLayer;
 
@@ -31,25 +32,86 @@ namespace ThAmCo.Events.Controllers
 
             return View(vm);
         }
-
-        public async Task<ActionResult> MenuDetails(int id)
+   
+        public async Task<ActionResult> FoodIndex()
         {
-            IEnumerable<MenuwithFoodItemDTO> menu = await Service.GetMenuFoodItems(client);
+            IEnumerable<ServiceLayer.FoodItemDTO> food = await Service.GetFoodItem(client);
 
-            if (menu == null)
+            if (food == null)
             {
                 return BadRequest();
             }
-            var vm = menu.Select(item => new MenuVM
+
+            var vm = food.Select(item => new FoodItemVM
             {
-                MenuId = item.menu
+                FoodItemId = item.FoodItemId,
+                Title = item.Title,
+                isVegan = item.isVegan,
+                Description = item.Description,
+                Price = item.Price,
+
                 
             }).ToList();
 
-
-
             return View(vm);
         }
+
+
+
+        //public async Task<ActionResult> MenuDetails(int id)
+        //{
+        //    IEnumerable<MenuwithFoodItemDTO> menu = await Service.GetMenuFoodItems(client);
+
+        //    if (menu == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var vm = menu.Select(item => new MenuVM
+        //    {
+        //        MenuId = item.menu
+
+        //    }).ToList();
+
+
+
+        //    return View(vm);
+        //}
+
+        //public async Task<ActionResult> MenuDetails(int id)
+        //{
+        //    // "{id:int}/Workshop/"
+        //    string url = "api/Menus/" + id.ToString();
+        //    MenuwithFoodItemDTO menuFoodItems= new MenuwithFoodItemDTO();
+        //    HttpResponseMessage response = await client.GetAsync(url);
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        string resulString = await response.Content.ReadAsStringAsync();
+        //        menuFoodItems = JsonConvert.DeserializeObject<MenuwithFoodItemDTO>(resulString);
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+
+
+        //    var myActualData = menuFoodItems;
+        //    MenuVM vm = new MenuVM();
+
+        //    vm.staff = new Models.StaffVM
+        //    {
+        //        Name = myActualData.staff.Name,
+        //    };
+
+
+        //    vm.workshop = myActualData.workshop.Select(item => new Models.WorkshopVM
+        //    {
+        //        Name = item.Name,
+        //        DateTime = item.DateAndTime
+        //    }).ToList();
+
+
+        //    return View(vm);
+        //}
 
 
 
