@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
+using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Controllers
 {
@@ -18,6 +19,7 @@ namespace ThAmCo.Events.Controllers
             _context = context;
         }
 
+        #region CRUD
         // GET: Events
         public async Task<IActionResult> Index()
         {
@@ -151,10 +153,156 @@ namespace ThAmCo.Events.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
+        #region manage EventStaff
+        public async Task<IActionResult> Staff(int? id)
+        {
+            if (id == null || _context.Events == null)
+            {
+                return NotFound();
+            }
+
+            var eventt = await _context.Events.FirstOrDefaultAsync(m => m.EventId == id);
+            if (eventt == null)
+            {
+                return NotFound();
+            }
+
+            //Create the view model Staff with a list of events.
+            EventsStaffVM vm = new EventsStaffVM();
+            vm.staff = GetEventsStaff(id);
+            vm.Event = eventt;
+
+            //View is returned
+            return View(vm);
+        }
+
+        // GET: Staffs/Create
+        public async Task<IActionResult> AddStaff(int? id)
+        {
+            //Find the staff member with the correct ID
+            Event Event = _context.Events.FirstOrDefault(m => m.EventId == id);
+
+            // Get their Events
+            var EventStaff = GetEventsStaff(id);
+            // Get all the Events
+            var AllStaff = _context.Staff.ToList();
+            //Only show the staff that are not already assigned to this event
+            var notEventStaff = AllStaff.Except(EventStaff);
+
+            //Create the view model for a list of Events that are bookable for that staff member.
+            EventStaffListVM vm = AddStaffViewModel(Event, notEventStaff);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult AddStaff(EventStaffListVM vm)
+        {
+            if (vm.selectedStaff == "0")
+            {
+                return RedirectToAction("AddStaff", new { id = vm.Event.EventId});
+            }
+            var selectedStaff = vm.selectedStaff;
+            var Event = vm.Event;
+            int staffId = Convert.ToInt32(selectedStaff);
+            int EventId = Convert.ToInt32(Event.EventId);
+            Staffing staffing = new Staffing(staffId, EventId);
+            try
+            {
+                _context.Add(staffing);
+                _context.SaveChangesAsync();
+                return RedirectToAction("Staff", new { id = EventId });
+            }
+            catch
+            {
+                return RedirectToAction("AddStaff", new { id = vm.Event.EventId });
+            }
+        }
+
+        //Remove an event from a staff member.
+        public async Task<IActionResult> Remove(int? eventId, int? staffId)
+        {
+            if (eventId == null || staffId == null || _context.staffing == null)
+            {
+                return NotFound();
+            }
+
+            //get the staffing relationship that matches the staffID and eventID
+            var staffing = _context.staffing
+                .FirstOrDefaultAsync(m => m.StaffId == staffId && m.EventId == eventId);
+            if (staffing == null)
+            {
+                return NotFound();
+            }
+
+            //create a new view model
+            EventStaffItemVM vm = new EventStaffItemVM();
+            //populate the view model with the database model
+            vm.staff = new Staff();
+            vm.Event = new Event();
+            //modify the view model to match the data of the relationship that needs to be deleted
+            vm.staff = await _context.Staff.FindAsync(staffId);
+            vm.Event = await _context.Events.FindAsync(eventId);
+
+            //then return the "Remove" view with a prompt asking the user if they would like to remove this item
+            return View(vm);
+        }
+
+
+        //Takes the view model from above to delete a relationship
+        [HttpPost, ActionName("Remove")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveConfirmed(EventStaffItemVM vm)
+        {
+            if (_context.staffing == null)
+            {
+                return Problem("Entity set 'staffing'  is null.");
+            }
+            var workshopStaff = await _context.staffing.FindAsync(vm.staff.StaffId, vm.Event.EventId);
+            if (workshopStaff != null)
+            {
+                _context.staffing.Remove(workshopStaff);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region private methods
         private bool EventExists(int id)
         {
           return _context.Events.Any(e => e.EventId == id);
         }
+
+        private List<Staff> GetEventsStaff(int? id)
+        {
+            var Staff = from Staffs in _context.Staff
+                         where Staffs.Events.Any(c => c.EventId == id)
+                         select Staffs;
+
+            List<Staff> StaffList = Staff.ToList();
+            return StaffList;
+        }
+
+        private static EventStaffListVM AddStaffViewModel(Event Event, IEnumerable<Staff> notEventStaff)
+        {
+            // Build a ViewModel
+            EventStaffListVM vm = new EventStaffListVM();
+            List<SelectListItem> StaffList = new List<SelectListItem>();
+            vm.Staff = StaffList;
+            vm.Event = Event;
+
+            //Add prompt
+            vm.Staff.Add(new SelectListItem { Text = "--Select a Staff Memver--", Value = "0" });
+
+            var selectItemList = notEventStaff.Select(item => new SelectListItem
+            { Text = item.Forename + " " + item.Surname, Value = item.StaffId.ToString() });
+            vm.Staff.AddRange(selectItemList);
+            return vm;
+        }
+        #endregion
     }
 }

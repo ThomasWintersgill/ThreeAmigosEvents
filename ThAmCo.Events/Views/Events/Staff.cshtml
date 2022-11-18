@@ -1,0 +1,60 @@
+﻿@model EventsStaffVM
+@{
+    ViewData["Title"] = "Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.Event.EventTitle Staff</h1>
+<p>
+    <a asp-action="AddStaff" asp-route-id=@Model.Event.EventId>Add a staff member to this event</a>
+
+</p>
+
+@{
+    if (Model.staff.Count() > 0)
+    {
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        StaffID
+                    </th>
+                    <th>
+                        Forename
+                    </th>
+                    <th>
+                        Surname
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.staff)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Forename)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Surname)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Remove","Remove","Events", new { StaffID = item.StaffId, EventId = @Model.Event.EventId})    
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <p>
+            This Event has no Staff
+        </p>
+    }
+}

@@ -1,0 +1,31 @@
+﻿@model EventStaffListVM
+@{
+    ViewData["Title"] = "AddStaff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add Staff to @Model.Event.EventTitle</h1>
+
+@{
+    if (Model.Staff.Count() > 1)
+    {
+        <form asp-action="AddStaff">
+            <input type="hidden" asp-for="@Model.Event.EventId" />
+
+            <div class="form-group">
+                <select asp-for="selectedStaff" class='form-control'
+                
+                    asp-items=Model.Staff>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    }
+    else
+    {
+        <h2>There are no Staff members to Add</h2>
+
+    }
+}
