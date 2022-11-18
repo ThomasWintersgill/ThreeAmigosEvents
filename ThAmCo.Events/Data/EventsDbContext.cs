@@ -65,23 +65,6 @@ namespace ThAmCo.Events.Data
                 .WithMany(s => s.Staff)
                 .HasForeignKey(e => e.EventId);
 
-            //Had to put this in as i was getting an error saying that menuFoodItem needed a primary key??
-            //modelBuilder.Entity<MenuFoodItem>()
-            //    .HasKey(mf => new { mf.FoodItemId, mf.MenuId });
-
-            //using fluent to configure ClientReferenceId to be used as foreign key into Event
-            //modelBuilder.Entity<FoodBooking>()
-            //    .HasOne<Event>()
-            //    .WithMany()
-            //    .HasForeignKey(fb => fb.ClientReferenceId);
-
-            modelBuilder.Entity<Guest>()
-                .HasData(
-                    new Guest ( 1, "Thomas", "Wintersgill" )
-
-                );
-
-
         }
     }
 }
