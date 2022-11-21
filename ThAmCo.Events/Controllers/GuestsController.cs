@@ -26,6 +26,14 @@ namespace ThAmCo.Events.Controllers
         // GET: Guests
         public async Task<IActionResult> Index()
         {
+            var model = await _context.Guests.ToListAsync();
+            var viewModel = model.Select( g => new GuestViewModel
+            {
+                GuestId = g.GuestId,
+                Forename = g.Forename,
+                Surname = g.Surname,
+
+            }
               return View(await _context.Guests.ToListAsync());
         }
 
