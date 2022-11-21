@@ -20,7 +20,7 @@ namespace ThAmCo.Events.Data
             ContactEmail = contactEmail;
         }
 
-        [MinLength(3), MaxLength(3)]
+        
         public int GuestId { get; set; }
 
         [Required]
