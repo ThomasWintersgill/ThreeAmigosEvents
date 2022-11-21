@@ -27,14 +27,14 @@ namespace ThAmCo.Events.Controllers
         public async Task<IActionResult> Index()
         {
             var model = await _context.Guests.ToListAsync();
-            var viewModel = model.Select( g => new GuestViewModel
+            var viewModel = model.Select(g => new GuestViewModel
             {
                 GuestId = g.GuestId,
                 Forename = g.Forename,
                 Surname = g.Surname,
 
-            }
-              return View(await _context.Guests.ToListAsync());
+            });
+              return View(viewModel);
         }
 
         // GET: Guests/Details/5
@@ -45,14 +45,24 @@ namespace ThAmCo.Events.Controllers
                 return NotFound();
             }
 
-            var guest = await _context.Guests
-                .FirstOrDefaultAsync(m => m.GuestId == id);
-            if (guest == null)
+       
+            var guestViewModel = await _context.Guests.Select(b => new GuestViewModel()
+            {
+                GuestId = b.GuestId,
+                Forename= b.Forename,
+                Surname= b.Surname,
+                ContactNumber = b.ContactNumber,
+                ContactAdress = b.ContactAdress,
+                ContactEmail = b.ContactEmail,
+
+            }).FirstOrDefaultAsync(b => b.GuestId == id);
+
+            if (guestViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(guest);
+            return View(guestViewModel);
         }
 
         // GET: Guests/Create
