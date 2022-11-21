@@ -61,7 +61,7 @@ namespace ThAmCo.Events.Controllers
         //The name of this method is the associated VIEW --"Events".
         public async Task<IActionResult> MenuFoodItems(int? id)
         {
-
+            //create the empty DTO.
             MenuwithFoodItemDTO menu = await Service.GetMenuFoodItems(client, id);
 
             if (menu == null)
@@ -69,13 +69,15 @@ namespace ThAmCo.Events.Controllers
                 return BadRequest();
             }
 
+            //Create the empty view models
             MenuVM menuVM = new MenuVM();
             MenuFoodItemsVM menuFoodItemVM = new MenuFoodItemsVM();
           
+            //Assign the Dto attributes to the menuVM attributes
             menuVM.MenuId = menu.menu.MenuId;
             menuVM.MenuName = menu.menu.MenuName;
 
-
+            //Assign the foodItem DTO attributes to the FoodItemVM attributes
             var foodVM = menu.FoodItems.Select(item => new FoodItemVM
             {
                 FoodItemId = item.FoodItemId,
@@ -86,7 +88,7 @@ namespace ThAmCo.Events.Controllers
 
 
             }).ToList();
-
+            //Compose the new view model that consists of both the menu and its food items
             menuFoodItemVM.menu = menuVM;
             menuFoodItemVM.FoodItems = foodVM;
 
