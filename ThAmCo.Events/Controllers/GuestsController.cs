@@ -78,6 +78,7 @@ namespace ThAmCo.Events.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create( Guest guest)
         {
+           
             if (ModelState.IsValid)
             {
                 _context.Add(guest);

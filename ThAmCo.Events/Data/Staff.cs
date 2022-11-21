@@ -33,6 +33,9 @@ namespace ThAmCo.Events.Data
         [Required]
         public string payRollNumber { get; set; }
 
+        //[Required]
+        //public Department department { get; set; }
+
         [Required]
         public string ContactNumber { get; set; }
 

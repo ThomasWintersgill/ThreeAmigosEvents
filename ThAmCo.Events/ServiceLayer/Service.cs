@@ -38,23 +38,23 @@ namespace ThAmCo.Events.ServiceLayer
             return menu;
         }
 
-        //public static async Task<ActionResult> GetMenuFoodItems(HttpClient client, int id)
-        //{
-        //    MenuwithFoodItemDTO menuFoodItems = new MenuwithFoodItemDTO();
-        //    string url = "api/Menus" + id.ToString();
+        public static async Task<MenuwithFoodItemDTO> GetMenuFoodItems(HttpClient client, int? id)
+        {
+            MenuwithFoodItemDTO menuFoodItems = new MenuwithFoodItemDTO();
+            string url = "api/Menus" + id.ToString();
 
-        //    HttpResponseMessage response = await client.GetAsync(url);
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        menuFoodItems = await response.Content.ReadAsAsync<MenuwithFoodItemDTO>;
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("Index received a bad response");
-        //    }
+            HttpResponseMessage response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                menuFoodItems = await response.Content.ReadAsAsync<MenuwithFoodItemDTO>();
+            }
+            else
+            {
+                Debug.WriteLine("Index received a bad response");
+            }
 
-        //    return menuFoodItems;
-        //}
+            return menuFoodItems;
+        }
 
         public static async Task<IEnumerable<FoodItemDTO>> GetFoodItem(HttpClient client)
         {

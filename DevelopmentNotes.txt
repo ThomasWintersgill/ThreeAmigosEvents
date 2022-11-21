@@ -1,0 +1,5 @@
+talk about using regular expression for validation...risks and benefits and why i chose it
+https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices
+
+current challenge/task is getting the MenuWithFoodItems DTO across to the web app and displaying them in
+a view model

@@ -30,4 +30,12 @@ namespace ThAmCo.Events.Models
 
         public List<Menu> Menus { get; set; }
     }
+
+    public class MenuFoodItemsVM
+    {
+        public MenuFoodItemsVM() { }
+        public MenuVM menu { get; set; }
+
+        public ICollection<FoodItemVM> FoodItems { get; set; }
+    }
 }
