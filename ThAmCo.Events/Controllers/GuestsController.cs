@@ -6,18 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
+using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.Controllers
 {
     public class GuestsController : Controller
     {
+
+        #region DBcontextInjection
         private readonly EventsDbContext _context;
 
         public GuestsController(EventsDbContext context)
         {
             _context = context;
         }
+        #endregion
 
+        #region CRUD
         // GET: Guests
         public async Task<IActionResult> Index()
         {
@@ -151,10 +156,86 @@ namespace ThAmCo.Events.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
+        #region manageGuest
+        public async Task<IActionResult> Events(int? id)
+        {
+            if (id == null || _context.Staff == null)
+            {
+                return NotFound();
+            }
+
+            var guest = await _context.Guests.FirstOrDefaultAsync(m => m.GuestId == id);
+            if (guest == null)
+            {
+                return NotFound();
+            }
+
+            //Create the view model Staff with a list of events.
+            GuestEventsVM vm = new GuestEventsVM();
+            vm.events = GetGuestEvents(id);
+            vm.guest = guest;
+
+            //View is returned
+            return View(vm);
+        }
+
+        public async Task<IActionResult> AddEvent(int? id)
+        {
+            //Find the staff member with the correct ID
+            Guest guest = _context.Guests.FirstOrDefault(m => m.GuestId == id);
+
+            // Get their Events
+            var GuestEvents = GetGuestEvents(id);
+            // Get all the Events
+            var AllEvents = _context.Events.ToList();
+            //Only show the Events that they are not already signed up to e.g allEvents-Current Events
+            var notGuestEvents = AllEvents.Except(GuestEvents);
+
+            // Call the method to Create the view model for a list of Events that are bookable for that guest.
+            GuestEventsListVM vm = AddEventsViewModel(guest, notGuestEvents);
+
+            return View(vm);
+        }
+
+
+        #endregion
+
+        #region private methods
         private bool GuestExists(int id)
         {
           return _context.Guests.Any(e => e.GuestId == id);
         }
+
+        //private method to get the events that staff member is involved with
+        private List<Event> GetGuestEvents(int? id)
+        {
+            var Events = from Event in _context.Events
+                         where Event.Guests.Any(c => c.GuestID == id)
+                         select Event;
+
+            List<Event> EventsList = Events.ToList();
+            return EventsList;
+        }
+
+        //populate the list model given a Guest object and a lists of notGuestEvents
+        private static GuestEventsListVM AddEventsViewModel(Guest guest, IEnumerable<Event> notGuestEvents)
+        {
+            // Build a ViewModel
+            GuestEventsListVM vm = new GuestEventsListVM();
+            List<SelectListItem> EventsList = new List<SelectListItem>();
+            vm.Events = EventsList;
+            vm.guest = guest;
+
+            //Add prompt
+            vm.Events.Add(new SelectListItem { Text = "--Select an Event--", Value = "0" });
+
+            var selectItemList = notGuestEvents.Select(item => new SelectListItem
+            { Text = item.EventTitle, Value = item.EventId.ToString() });
+            vm.Events.AddRange(selectItemList);
+            return vm;
+        }
+        #endregion
     }
 }

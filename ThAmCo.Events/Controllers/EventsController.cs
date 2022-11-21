@@ -12,13 +12,14 @@ namespace ThAmCo.Events.Controllers
 {
     public class EventsController : Controller
     {
+        #region dbContextInjection
         private readonly EventsDbContext _context;
 
         public EventsController(EventsDbContext context)
         {
             _context = context;
         }
-
+        #endregion
         #region CRUD
         // GET: Events
         public async Task<IActionResult> Index()
@@ -221,7 +222,7 @@ namespace ThAmCo.Events.Controllers
             }
         }
 
-        //Remove an event from a staff member.
+        //Remove a staff member from an event
         public async Task<IActionResult> Remove(int? eventId, int? staffId)
         {
             if (eventId == null || staffId == null || _context.staffing == null)
@@ -271,6 +272,10 @@ namespace ThAmCo.Events.Controllers
         }
         #endregion
 
+        #region manage EventGuests
+
+        #endregion
+
         #region private methods
         private bool EventExists(int id)
         {
@@ -296,7 +301,7 @@ namespace ThAmCo.Events.Controllers
             vm.Event = Event;
 
             //Add prompt
-            vm.Staff.Add(new SelectListItem { Text = "--Select a Staff Memver--", Value = "0" });
+            vm.Staff.Add(new SelectListItem { Text = "--Select a Staff Member--", Value = "0" });
 
             var selectItemList = notEventStaff.Select(item => new SelectListItem
             { Text = item.Forename + " " + item.Surname, Value = item.StaffId.ToString() });

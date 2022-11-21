@@ -1,0 +1,56 @@
+﻿@model GuestEventsVM
+@{
+    ViewData["Title"] = "Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.guest.Forename @Model.guest.Surname Events</h1>
+
+<p>
+    <a asp-action="AddEvent" asp-route-id=@Model.guest.GuestId>Book onto Event</a>
+
+</p>
+@{
+    if (Model.events.Count() > 0)
+    {
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Date and Time
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.events)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Remove","Remove","Staffs", new { eventID = item.EventId, staffId = @Model.guest.GuestId})
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <p>
+            This Guest is not booked onto any events
+        </p>
+    }
+}
+
+
