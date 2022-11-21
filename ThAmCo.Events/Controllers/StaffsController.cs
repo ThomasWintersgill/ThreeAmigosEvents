@@ -57,7 +57,7 @@ namespace ThAmCo.Events.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaffId,Forename,Surname")] Staff staff)
+        public async Task<IActionResult> Create( Staff staff)
         {
             if (ModelState.IsValid)
             {
@@ -118,6 +118,7 @@ namespace ThAmCo.Events.Controllers
             }
             return View(staff);
         }
+
 
         // GET: Staffs/Delete/5
         public async Task<IActionResult> Delete(int? id)

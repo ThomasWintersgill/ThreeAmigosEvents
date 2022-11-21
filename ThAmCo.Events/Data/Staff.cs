@@ -6,6 +6,20 @@ namespace ThAmCo.Events.Data
 {
     public class Staff
     {
+        public Staff(int staffId, string forename, string surname, string payRollNumber, string contactNumber, string adress)
+        {
+            StaffId = staffId;
+            Forename = forename;
+            Surname = surname;
+            this.payRollNumber = payRollNumber;
+            ContactNumber = contactNumber;
+            Adress = adress;
+        }
+
+        public Staff()
+        {
+        }
+
         public int StaffId { get; set; }
 
         [Required]

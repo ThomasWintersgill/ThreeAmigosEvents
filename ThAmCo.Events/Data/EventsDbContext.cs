@@ -65,6 +65,9 @@ namespace ThAmCo.Events.Data
                 .WithMany(s => s.Staff)
                 .HasForeignKey(e => e.EventId);
 
+            modelBuilder.Entity<Staff>()
+                .HasData(new Staff(1, "thomas", "Wintersgill", "223", "07532759859", "75 high street"));
+
         }
     }
 }

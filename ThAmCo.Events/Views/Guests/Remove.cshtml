@@ -1,0 +1,18 @@
+﻿@model EventGuestItemVM
+@{
+    ViewData["Title"] = "Remove";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Are you sure you want to remove @Model.guest.Forename @Model.guest.Surname from the @Model.Event.EventTitle</h3>
+<div>
+    <hr />
+
+    <form asp-action="Remove">
+        <input type="hidden" asp-for=@Model.Event.EventId/>
+        <input type="hidden" asp-for=@Model.guest.GuestId/>
+        <input type="submit" value="Yes" class="btn btn-danger"/> |
+        <a asp-action="Index" class="btn btn">No</a>
+    </form>
+</div>
+

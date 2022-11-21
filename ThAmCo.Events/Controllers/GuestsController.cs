@@ -58,7 +58,7 @@ namespace ThAmCo.Events.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GuestId,ForeName,Surname")] Guest guest)
+        public async Task<IActionResult> Create( Guest guest)
         {
             if (ModelState.IsValid)
             {
@@ -183,7 +183,7 @@ namespace ThAmCo.Events.Controllers
 
         public async Task<IActionResult> AddEvent(int? id)
         {
-            //Find the staff member with the correct ID
+            //Find the guest with the correct ID
             Guest guest = _context.Guests.FirstOrDefault(m => m.GuestId == id);
 
             // Get their Events
@@ -200,6 +200,77 @@ namespace ThAmCo.Events.Controllers
         }
 
 
+        //get the selection from the list and create the relationship between guest and staff
+        [HttpPost]
+        public IActionResult AddEvent(GuestEventsListVM vm)
+        {
+            if (vm.selectedEvent == "0")
+            {
+                return RedirectToAction("AddEvent", new { id = vm.guest.GuestId });
+            }
+            var selectedEvent = vm.selectedEvent;
+            var guest = vm.guest;
+            int EventId = Convert.ToInt32(selectedEvent);
+            int guestId = Convert.ToInt32(guest.GuestId);
+            GuestBooking guestBooking = new GuestBooking(EventId, guestId);
+            try
+            {
+                _context.Add(guestBooking);
+                _context.SaveChangesAsync();
+                return RedirectToAction("Events", new { id = guestId });
+            }
+            catch
+            {
+                return RedirectToAction("AddEvent", new { id = vm.guest.GuestId });
+            }
+
+        }
+
+        //Remove an event from a staff member.
+        public async Task<IActionResult> Remove(int? eventId, int? guestId)
+        {
+            if (eventId == null || guestId == null || _context.GuestBookings == null)
+            {
+                return NotFound();
+            }
+
+            //get the staffing relationship that matches the guestID and eventID
+            var guestBooking = _context.GuestBookings
+                .FirstOrDefaultAsync(m => m.GuestID == guestId && m.EventID == eventId);
+            if (guestBooking == null)
+            {
+                return NotFound();
+            }
+            //create a new view model
+            EventGuestItemVM vm = new EventGuestItemVM();
+            //populate the view model with the database model
+            vm.guest = new Guest();
+            vm.Event = new Event();
+            //modify the view model to match the data of the relationship that needs to be deleted
+            vm.guest = await _context.Guests.FindAsync(guestId);
+            vm.Event = await _context.Events.FindAsync(eventId);
+
+            //then return the "Remove" view with a prompt asking the user if they would like to remove this item
+            return View(vm);
+        }
+
+        [HttpPost, ActionName("Remove")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveConfirmed(EventGuestItemVM vm)
+        {
+            if (_context.GuestBookings == null)
+            {
+                return Problem("Entity set 'guestBooking'  is null.");
+            }
+            var eventGuest = await _context.GuestBookings.FindAsync(vm.Event.EventId, vm.guest.GuestId);
+            if (eventGuest != null)
+            {
+                _context.GuestBookings.Remove(eventGuest);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
         #endregion
 
         #region private methods
