@@ -3,3 +3,10 @@ https://learn.microsoft.com/en-us/dotnet/standard/base-types/best-practices
 
 current challenge/task is getting the MenuWithFoodItems DTO across to the web app and displaying them in
 a view model
+
+talk about the decision to implement a service layer
+
+
+
+
+look into caching and repositories if have time
