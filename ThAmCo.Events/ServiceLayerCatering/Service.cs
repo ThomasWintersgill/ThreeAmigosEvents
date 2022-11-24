@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace ThAmCo.Events.ServiceLayer
 {
-    public class Service
+    public class service
     {
         #region HTTPClient
         public static HttpClient ServiceClient()
@@ -41,7 +41,7 @@ namespace ThAmCo.Events.ServiceLayer
         public static async Task<MenuwithFoodItemDTO> GetMenuFoodItems(HttpClient client, int? id)
         {
             MenuwithFoodItemDTO menuFoodItems = new MenuwithFoodItemDTO();
-            string url = "api/Menus" + id.ToString();
+            string url = "api/Menus/" + id.ToString();
 
             HttpResponseMessage response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)

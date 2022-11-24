@@ -6,6 +6,6 @@
         public MenuwithFoodItemDTO() { }
         public MenuDTO menu { get; set; }
 
-        public ICollection<FoodItemDTO> FoodItems { get; set; }
+        public ICollection<FoodItemDTO> foodItems { get; set; }
     }
 }

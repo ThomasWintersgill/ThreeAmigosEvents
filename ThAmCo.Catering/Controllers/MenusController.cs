@@ -76,6 +76,7 @@ namespace ThAmCo.Catering.Controllers
             //put the food items into the main DTO, this DTO has a list property that is populated
             DTO.FoodItems = menuitems.Select(item => new FoodItemDTO
             {
+                Title = item.Title,
                 FoodItemId = item.FoodItemId,
                 Description = item.Description,
                 Price = item.UnitPrice

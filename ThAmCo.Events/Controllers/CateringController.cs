@@ -13,12 +13,12 @@ namespace ThAmCo.Events.Controllers
 
         public CateringController()
         {
-            client = Service.ServiceClient();
+            client = service.ServiceClient();
         }
         
         public async Task<ActionResult> MenuIndex()
         {
-            IEnumerable<MenuDTO> menus = await Service.GetMenu(client);
+            IEnumerable<MenuDTO> menus = await service.GetMenu(client);
 
             if ( menus == null)
             {
@@ -36,7 +36,7 @@ namespace ThAmCo.Events.Controllers
    
         public async Task<ActionResult> FoodIndex()
         {
-            IEnumerable<ServiceLayer.FoodItemDTO> food = await Service.GetFoodItem(client);
+            IEnumerable<ServiceLayer.FoodItemDTO> food = await service.GetFoodItem(client);
 
             if (food == null)
             {
@@ -57,12 +57,17 @@ namespace ThAmCo.Events.Controllers
             return View(vm);
         }
 
-        //Get all the events that this staff member is booked onto.
-        //The name of this method is the associated VIEW --"Events".
+        //public async Task<ActionResult<FoodItem>> PostFoodItem(FoodItem foodItem)
+        //{
+
+        //}
+
+
+
         public async Task<IActionResult> MenuFoodItems(int? id)
         {
             //create the empty DTO.
-            MenuwithFoodItemDTO menu = await Service.GetMenuFoodItems(client, id);
+            MenuwithFoodItemDTO menu = await service.GetMenuFoodItems(client, id);
 
             if (menu == null)
             {
@@ -78,7 +83,7 @@ namespace ThAmCo.Events.Controllers
             menuVM.MenuName = menu.menu.MenuName;
 
             //Assign the foodItem DTO attributes to the FoodItemVM attributes
-            var foodVM = menu.FoodItems.Select(item => new FoodItemVM
+            var foodVM = menu.foodItems.Select(item => new FoodItemVM
             {
                 FoodItemId = item.FoodItemId,
                 Title = item.Title,

@@ -22,10 +22,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.MenuName)
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.MenuName">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.MenuName">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.MenuName">Delete</a> |
-                    <a asp-action="FoodItems" asp-route-id="@item.MenuName">View Food Items For this menu</a>
+                    <a asp-action="Edit" asp-route-id="@item.MenuId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MenuId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MenuId">Delete</a> |
+                    <a asp-action="MenuFoodItems" asp-route-id="@item.MenuId">View Food Items For this menu</a>
                     
                 </td>
                 </td>

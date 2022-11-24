@@ -90,7 +90,7 @@ namespace ThAmCo.Catering.Controllers
 
             return NoContent();
         }
-
+        
         // POST: api/FoodItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -103,7 +103,7 @@ namespace ThAmCo.Catering.Controllers
             _context.FoodItems.Add(foodItem);
             await _context.SaveChangesAsync();
 
-            //need to take a look at automapper for this install-package AutoMapper
+            
             FoodItemDTO DTO = new FoodItemDTO();
             DTO.FoodItemId = foodItem.FoodItemId;
             DTO.Description = foodItem.Description;
