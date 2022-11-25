@@ -116,28 +116,28 @@ namespace ThAmCo.Catering.Controllers
             return CreatedAtAction("GetFoodItem", new { id = foodItem.FoodItemId }, DTO);
         }
 
-        // POST: api/FoodItems
-        [HttpPost]
-        public async Task<ActionResult<FoodItem>> PostFoodItemTwo(FoodItemDTO foodItem)
-        {
+        //// POST: api/FoodItems
+        //[HttpPost]
+        //public async Task<ActionResult<FoodItem>> PostFoodItemTwo(FoodItemDTO foodItem)
+        //{
 
-            //transform the DTO into a context food item
-           FoodItem food = new FoodItem();
-            food.FoodItemId = foodItem.FoodItemId;
-            food.Title = foodItem.Title;
-            food.Description = foodItem.Description;
-            food.IsVegan = foodItem.isVegan;
-            food.UnitPrice = foodItem.Price;
+        //    //transform the DTO into a context food item
+        //   FoodItem food = new FoodItem();
+        //    food.FoodItemId = foodItem.FoodItemId;
+        //    food.Title = foodItem.Title;
+        //    food.Description = foodItem.Description;
+        //    food.IsVegan = foodItem.isVegan;
+        //    food.UnitPrice = foodItem.Price;
             
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            _context.FoodItems.Add(food);
-            await _context.SaveChangesAsync();
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    _context.FoodItems.Add(food);
+        //    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFoodItem", new { id = food.FoodItemId }, food);
-        }
+        //    return CreatedAtAction("GetFoodItem", new { id = food.FoodItemId }, food);
+        //}
 
         // DELETE: api/FoodItems/5
         [HttpDelete("{id}")]
