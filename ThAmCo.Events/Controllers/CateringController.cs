@@ -57,28 +57,40 @@ namespace ThAmCo.Events.Controllers
             return View(vm);
         }
 
-        //[HttpPost]
-        public async Task<ActionResult> CreateFood( FoodItemVM vm)
+        ////[HttpPost]
+        //public async Task<ActionResult> CreateFood( FoodItemVM vm)
+        //{
+
+        //    FoodItemDTO food = service.CreateFoodItem(vm);
+        //    using (var client = service.ServiceClient())
+        //    {
+        //        client.BaseAddress = new Uri("https://localhost:7173/api/foodItems");
+        //        var postTask = client.PostAsJsonAsync<FoodItemDTO>("api/foodItems", vm);
+        //        postTask.Wait();
+
+        //        var result = postTask.Result;
+        //        if (result.IsSuccessStatusCode)
+        //        {
+        //            return RedirectToAction("FoodIndex");
+        //        }
+        //    }
+
+        //    return View(vm);
+        //}
+
+        public async Task<ActionResult> CreateFood(FoodItemVM vm)
         {
-            FoodItemDTO food = service.CreateFoodItem(vm);
 
-            using (var client = service.ServiceClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:7173/api/foodItems");
-                var postTask = client.PostAsJsonAsync<FoodItemDTO>("foodItem", food);
-                postTask.Wait();
-
-                var result = postTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("FoodIndex");
-                }
-            }
+            HttpClient client = new HttpClient(); client.BaseAddress = new System.Uri("http://localhost:7173");
+            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+            var food = service.CreateFoodItem(vm); 
+            
+            
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/foodItems", food);
 
             return View(vm);
         }
 
-        
 
 
         public async Task<IActionResult> MenuFoodItems(int? id)

@@ -103,11 +103,15 @@ namespace ThAmCo.Catering.Controllers
             _context.FoodItems.Add(foodItem);
             await _context.SaveChangesAsync();
 
-            
-            FoodItemDTO DTO = new FoodItemDTO();
-            DTO.FoodItemId = foodItem.FoodItemId;
-            DTO.Description = foodItem.Description;
-            DTO.Price = foodItem.UnitPrice;
+            var DTO = new FoodItemDTO()
+            {
+                FoodItemId = foodItem.FoodItemId,
+                Title = foodItem.Title,
+                Description = foodItem.Description,
+                isVegan = foodItem.IsVegan,
+                Price = foodItem.UnitPrice
+            };
+         
 
             return CreatedAtAction("GetFoodItem", new { id = foodItem.FoodItemId }, DTO);
         }
