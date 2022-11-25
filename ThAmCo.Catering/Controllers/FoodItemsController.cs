@@ -112,6 +112,7 @@ namespace ThAmCo.Catering.Controllers
             return CreatedAtAction("GetFoodItem", new { id = foodItem.FoodItemId }, DTO);
         }
 
+        // POST: api/FoodItems
         [HttpPost]
         public async Task<ActionResult<FoodItem>> PostFoodItemTwo(FoodItemDTO foodItem)
         {

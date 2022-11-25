@@ -73,7 +73,7 @@ namespace ThAmCo.Events.ServiceLayer
 
         }
 
-        public static FoodItemDTO CreateFooditem(FoodItemVM foodVM)
+        public static FoodItemDTO CreateFoodItem(FoodItemVM foodVM)
         {
 
             var food = new FoodItemDTO();

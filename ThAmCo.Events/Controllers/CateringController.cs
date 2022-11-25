@@ -57,14 +57,23 @@ namespace ThAmCo.Events.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> CreateFood(HttpClient httpClient, FoodItemVM vm)
+        //[HttpPost]
+        public async Task<ActionResult> CreateFood( FoodItemVM vm)
         {
+            FoodItemDTO food = service.CreateFoodItem(vm);
 
-            FoodItemDTO food = new FoodItemDTO();
-            food = service.CreateFooditem(vm);
+            using (var client = service.ServiceClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7173/api/foodItems");
+                var postTask = client.PostAsJsonAsync<FoodItemDTO>("foodItem", food);
+                postTask.Wait();
 
-            using HttpResponseMessage response = await httpClient.PostAsJsonAsync(
-                "api/FoodItems",food);
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("FoodIndex");
+                }
+            }
 
             return View(vm);
         }
