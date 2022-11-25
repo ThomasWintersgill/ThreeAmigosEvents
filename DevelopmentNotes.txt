@@ -10,3 +10,6 @@ talk about the decision to implement a service layer
 
 
 look into caching and repositories if have time
+
+
+talk about implementation of DTO on web app and web api side

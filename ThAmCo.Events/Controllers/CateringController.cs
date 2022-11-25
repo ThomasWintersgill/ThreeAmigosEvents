@@ -57,11 +57,19 @@ namespace ThAmCo.Events.Controllers
             return View(vm);
         }
 
-        //public async Task<ActionResult<FoodItem>> PostFoodItem(FoodItem foodItem)
-        //{
+        public async Task<ActionResult> CreateFood(HttpClient httpClient, FoodItemVM vm)
+        {
 
-        //}
+            FoodItemDTO food = new FoodItemDTO();
+            food = service.CreateFooditem(vm);
 
+            using HttpResponseMessage response = await httpClient.PostAsJsonAsync(
+                "api/FoodItems",food);
+
+            return View(vm);
+        }
+
+        
 
 
         public async Task<IActionResult> MenuFoodItems(int? id)

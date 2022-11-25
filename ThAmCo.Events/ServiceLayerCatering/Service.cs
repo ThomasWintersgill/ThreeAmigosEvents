@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
-
+using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.ServiceLayer
 {
@@ -70,6 +70,20 @@ namespace ThAmCo.Events.ServiceLayer
             }
 
             return Fooditem;
+
+        }
+
+        public static FoodItemDTO CreateFooditem(FoodItemVM foodVM)
+        {
+
+            var food = new FoodItemDTO();
+            food.FoodItemId = foodVM.FoodItemId;
+            food.Title = foodVM.Title;
+            food.Description = foodVM.Description;
+            food.isVegan = foodVM.isVegan;
+            food.Price = foodVM.Price;
+
+            return food;
 
         }
 

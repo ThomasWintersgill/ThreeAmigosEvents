@@ -4,6 +4,10 @@ namespace ThAmCo.Catering.Data
 {
     public class FoodItem
     {
+        public FoodItem()
+        {
+        }
+
         public FoodItem(int foodItemId, string title, FoodCategory category, string description, int unitPrice, bool isVegan, DateTime dateCreated)
         {
             FoodItemId = foodItemId;
