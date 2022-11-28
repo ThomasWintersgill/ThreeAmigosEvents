@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Reflection;
+using ThAmCo.Events.Data;
 using ThAmCo.Events.Models;
 using ThAmCo.Events.ServiceLayer;
 
@@ -36,7 +38,7 @@ namespace ThAmCo.Events.Controllers
    
         public async Task<ActionResult> FoodIndex()
         {
-            IEnumerable<ServiceLayer.FoodItemDTO> food = await service.GetFoodItem(client);
+            IEnumerable<ServiceLayer.FoodItemDTO> food = await service.GetFoodItems(client);
 
             if (food == null)
             {
@@ -94,6 +96,7 @@ namespace ThAmCo.Events.Controllers
             try
             {
                 HttpResponseMessage response = await client.PostAsJsonAsync("api/FoodItems", food);
+                return RedirectToAction("FoodIndex");
             }
             catch (Exception ex)
             {
@@ -104,6 +107,47 @@ namespace ThAmCo.Events.Controllers
             return View();
         }
 
+        public async Task<ActionResult> DeleteFood(int id)
+        {
+            FoodItemVM vm = new FoodItemVM();
+
+            //Calls the method to get the FoodItem from the web service with the corresponding ID.
+            var FoodItem = service.GetFoodItem(client, id);
+
+            if (FoodItem == null)
+            {
+                return Problem("Entity set 'EventsDbContext.Staff'  is null.");
+            }
+            if (FoodItem != null)
+            {
+                vm.FoodItemId = FoodItem.Result.FoodItemId;
+                vm.Title = FoodItem.Result.Title;
+                vm.Description = FoodItem.Result.Description;
+                vm.isVegan = FoodItem.Result.isVegan;
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost, ActionName("DeleteFood")]
+        public async Task<ActionResult> DeleteFoodConfirmed(FoodItemVM vm)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("https://localhost:7173");
+            try
+            {
+                var deleteTask = client.DeleteAsync("api/FoodItems/" + vm.FoodItemId.ToString());
+                
+            }
+            catch (Exception ex)
+            {
+                var message = ex.InnerException.Message.ToString();
+
+            }
+
+            return RedirectToAction("FoodIndex");
+
+        }
 
 
         public async Task<IActionResult> MenuFoodItems(int? id)

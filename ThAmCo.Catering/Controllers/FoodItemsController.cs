@@ -53,6 +53,8 @@ namespace ThAmCo.Catering.Controllers
 
             FoodItemDTO DTO = new FoodItemDTO();
             DTO.FoodItemId = foodItem.FoodItemId;
+            DTO.Title = foodItem.Title;
+            DTO.isVegan= foodItem.IsVegan;
             DTO.Description = foodItem.Description;
             DTO.Price = foodItem.UnitPrice;
 

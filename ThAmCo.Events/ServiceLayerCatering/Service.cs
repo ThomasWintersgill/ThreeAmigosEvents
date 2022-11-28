@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using ThAmCo.Catering.Data;
 using ThAmCo.Events.Models;
 
 namespace ThAmCo.Events.ServiceLayer
@@ -55,8 +56,23 @@ namespace ThAmCo.Events.ServiceLayer
 
             return menuFoodItems;
         }
+        public static async Task<FoodItemDTO>GetFoodItem(HttpClient client, int id)
+        {
+            FoodItemDTO FoodItem = new FoodItemDTO();
+            HttpResponseMessage response = await client.GetAsync("api/FoodItems/" +id.ToString());
 
-        public static async Task<IEnumerable<FoodItemDTO>> GetFoodItem(HttpClient client)
+            if (response.IsSuccessStatusCode)
+            {
+                FoodItem = await response.Content.ReadAsAsync<FoodItemDTO>();
+            }
+            else
+            {
+                Debug.WriteLine("Index received a bad response");
+            }
+
+            return FoodItem;
+        }
+        public static async Task<IEnumerable<FoodItemDTO>> GetFoodItems(HttpClient client)
         {
             IEnumerable<FoodItemDTO> Fooditem = new List<FoodItemDTO>();
             HttpResponseMessage response = await client.GetAsync("api/FoodItems");
