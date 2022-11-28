@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using ThAmCo.Catering.Data;
 
 namespace ThAmCo.Catering.DTOs
 {
@@ -9,6 +10,7 @@ namespace ThAmCo.Catering.DTOs
         public int FoodItemId { get; set; }
         public string Title { get; set; }
 
+        
         public bool isVegan     { get; set; }
 
         public string Description { get; set; }

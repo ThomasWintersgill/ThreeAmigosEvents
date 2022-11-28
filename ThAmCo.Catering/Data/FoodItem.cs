@@ -8,11 +8,11 @@ namespace ThAmCo.Catering.Data
         {
         }
 
-        public FoodItem(int foodItemId, string title, FoodCategory category, string description, int unitPrice, bool isVegan, DateTime dateCreated)
+        public FoodItem(int foodItemId, string title, string description, int unitPrice, bool isVegan, DateTime dateCreated)
         {
             FoodItemId = foodItemId;
             Title = title;
-            Category = category;
+           
             Description = description;
             UnitPrice = unitPrice;
             IsVegan = isVegan;
@@ -26,7 +26,7 @@ namespace ThAmCo.Catering.Data
         [MaxLength(50)]
         public string Title{ get; set; }
 
-        public FoodCategory Category { get; set; }
+        //public FoodCategory Category { get; set; }
 
         [Required]
         [MaxLength(50)]

@@ -86,14 +86,15 @@ namespace ThAmCo.Events.Controllers
         public async Task<ActionResult> CreateFood(FoodItemVM vm)
         {
 
-            HttpClient client = new HttpClient(); client.BaseAddress = new System.Uri("http://localhost:7004");
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("http://localhost:7173");
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
             var food = service.CreateFoodItem(vm);
 
 
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/foodItems", food);
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/FoodItems", food);
 
-            return View(vm);
+            return View();
         }
 
 

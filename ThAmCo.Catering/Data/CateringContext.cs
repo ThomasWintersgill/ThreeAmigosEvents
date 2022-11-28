@@ -52,16 +52,16 @@ namespace ThAmCo.Catering.Data
                 .WithMany(mf => mf.Menus)
                 .HasForeignKey(mf => mf.FoodItemId);
 
-            modelBuilder.Entity<FoodItem>()
-                .Property(fc => fc.Category)
-                .HasConversion<string>()
-                .HasMaxLength(50);
+            //modelBuilder.Entity<FoodItem>()
+            //    .Property(fc => fc.Category)
+            //    .HasConversion<string>()
+            //    .HasMaxLength(50);
 
 
            modelBuilder.Entity<FoodItem>().HasData(
-                                                    new FoodItem (1, "chips", FoodCategory.Side, "lovely chips", 250, true, new DateTime(2015, 12, 25))
+                                                    new FoodItem (1, "chips",  "lovely chips", 250, true, new DateTime(2015, 12, 25))
 
-                                                    ,new FoodItem(2, "sosig", FoodCategory.Entree, "just a sosig", 300, false, new DateTime(2015, 12, 25))
+                                                    ,new FoodItem(2, "sosig",  "just a sosig", 300, false, new DateTime(2015, 12, 25))
                                                     
                                                    );
 

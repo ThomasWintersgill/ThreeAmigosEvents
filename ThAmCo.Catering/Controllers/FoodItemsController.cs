@@ -94,26 +94,27 @@ namespace ThAmCo.Catering.Controllers
         // POST: api/FoodItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FoodItem>> PostFoodItem(FoodItem foodItem)
+        public async Task<ActionResult<FoodItemDTO>> PostFoodItem(FoodItemDTO DTO)
         {
+          
+
+            FoodItem food = new FoodItem();
+            {
+                food.FoodItemId = DTO.FoodItemId;
+                food.Title = DTO.Title;
+                food.Description = DTO.Description;
+                food.IsVegan = DTO.isVegan;
+                food.UnitPrice = DTO.Price;
+            };
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            _context.FoodItems.Add(foodItem);
+            _context.FoodItems.Add(food);
             await _context.SaveChangesAsync();
 
-            var DTO = new FoodItemDTO()
-            {
-                FoodItemId = foodItem.FoodItemId,
-                Title = foodItem.Title,
-                Description = foodItem.Description,
-                isVegan = foodItem.IsVegan,
-                Price = foodItem.UnitPrice
-            };
-         
 
-            return CreatedAtAction("GetFoodItem", new { id = foodItem.FoodItemId }, DTO);
+            return CreatedAtAction("GetFoodItem", new { id = food.FoodItemId }, DTO);
         }
 
         //// POST: api/FoodItems
