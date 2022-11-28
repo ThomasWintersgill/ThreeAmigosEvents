@@ -87,12 +87,19 @@ namespace ThAmCo.Events.Controllers
         {
 
             HttpClient client = new HttpClient();
-            client.BaseAddress = new System.Uri("http://localhost:7173");
+            client.BaseAddress = new System.Uri("https://localhost:7173");
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
             var food = service.CreateFoodItem(vm);
-
-
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/FoodItems", food);
+      
+            try
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("api/FoodItems", food);
+            }
+            catch (Exception ex)
+            {
+                var message = ex.InnerException.Message.ToString();
+                return View();
+            }
 
             return View();
         }
