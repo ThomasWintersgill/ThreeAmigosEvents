@@ -77,10 +77,12 @@ namespace ThAmCo.Events.Controllers
             }
             if (FoodItem != null)
             {
+                //Set the foodItem view model attributes to that of the FoodItemDTO that is returned from the api.
                 vm.FoodItemId = FoodItem.Result.FoodItemId;
                 vm.Title = FoodItem.Result.Title;
                 vm.Description = FoodItem.Result.Description;
                 vm.isVegan = FoodItem.Result.isVegan;
+                vm.Price = FoodItem.Result.Price;
             }
             
             return View(vm);
@@ -93,7 +95,7 @@ namespace ThAmCo.Events.Controllers
             HttpClient client = new HttpClient();
             client.BaseAddress = new System.Uri("https://localhost:7173");
             client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
-            var food = service.CreateFoodItem(vm);
+            var food = service.VMfoodToDTOfood(vm);
 
             try
             {
@@ -116,15 +118,11 @@ namespace ThAmCo.Events.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateFood(FoodItemVM vm)
         {
-
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new System.Uri("https://localhost:7173");
-            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
-            var food = service.CreateFoodItem(vm);
-      
             try
             {
-                HttpResponseMessage response = await client.PostAsJsonAsync("api/FoodItems", food);
+                //Call the method within the service layer to create a new food item
+                await service.CreateFood(client, vm);
+                
                 return RedirectToAction("FoodIndex");
             }
             catch (Exception ex)

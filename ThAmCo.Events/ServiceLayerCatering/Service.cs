@@ -89,8 +89,18 @@ namespace ThAmCo.Events.ServiceLayer
 
         }
 
+        public static async Task CreateFood(HttpClient client, FoodItemVM vm)
+        {
+            //Transform the Food VM to a Food DTO.
+            var food = VMfoodToDTOfood(vm);
+
+            //Send a post request with the food in the DTO shape.
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/FoodItems", food);
+
+        }
+
         //Takes a foodItem View Mdoel and returns a foodItemDTO
-        public static FoodItemDTO CreateFoodItem(FoodItemVM foodVM)
+        public static FoodItemDTO VMfoodToDTOfood(FoodItemVM foodVM)
         {
 
             var food = new FoodItemDTO();

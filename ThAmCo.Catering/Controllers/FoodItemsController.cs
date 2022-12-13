@@ -109,7 +109,7 @@ namespace ThAmCo.Catering.Controllers
         public async Task<ActionResult<FoodItemDTO>> PostFoodItem(FoodItemDTO DTO)
         {
           
-
+            //Transform from the DTO into the model FoodItem
             FoodItem food = new FoodItem();
             {
                 food.FoodItemId = DTO.FoodItemId;
@@ -118,6 +118,7 @@ namespace ThAmCo.Catering.Controllers
                 food.IsVegan = DTO.isVegan;
                 food.UnitPrice = DTO.Price;
             };
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
