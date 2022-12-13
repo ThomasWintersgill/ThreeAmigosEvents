@@ -64,14 +64,24 @@ namespace ThAmCo.Catering.Controllers
         // PUT: api/FoodItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFoodItem(int id, FoodItem foodItem)
+        public async Task<IActionResult> PutFoodItem(int id, FoodItemDTO DTO)
         {
-            if (id != foodItem.FoodItemId)
+            //THIS SHOULD BE MADE INTO A PRIVATE METHOD,AS IS USED OFTEN?
+            FoodItem food = new FoodItem();
+            {
+                food.FoodItemId = DTO.FoodItemId;
+                food.Title = DTO.Title;
+                food.Description = DTO.Description;
+                food.IsVegan = DTO.isVegan;
+                food.UnitPrice = DTO.Price;
+            };
+
+            if (id != food.FoodItemId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(foodItem).State = EntityState.Modified;
+            _context.Entry(food).State = EntityState.Modified;
 
             try
             {
@@ -118,29 +128,6 @@ namespace ThAmCo.Catering.Controllers
 
             return CreatedAtAction("GetFoodItem", new { id = food.FoodItemId }, DTO);
         }
-
-        //// POST: api/FoodItems
-        //[HttpPost]
-        //public async Task<ActionResult<FoodItem>> PostFoodItemTwo(FoodItemDTO foodItem)
-        //{
-
-        //    //transform the DTO into a context food item
-        //   FoodItem food = new FoodItem();
-        //    food.FoodItemId = foodItem.FoodItemId;
-        //    food.Title = foodItem.Title;
-        //    food.Description = foodItem.Description;
-        //    food.IsVegan = foodItem.isVegan;
-        //    food.UnitPrice = foodItem.Price;
-            
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    _context.FoodItems.Add(food);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetFoodItem", new { id = food.FoodItemId }, food);
-        //}
 
         // DELETE: api/FoodItems/5
         [HttpDelete("{id}")]

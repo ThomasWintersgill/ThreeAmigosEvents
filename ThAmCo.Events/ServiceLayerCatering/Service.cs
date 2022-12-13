@@ -89,6 +89,7 @@ namespace ThAmCo.Events.ServiceLayer
 
         }
 
+        //Takes a foodItem View Mdoel and returns a foodItemDTO
         public static FoodItemDTO CreateFoodItem(FoodItemVM foodVM)
         {
 

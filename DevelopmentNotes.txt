@@ -13,3 +13,7 @@ look into caching and repositories if have time
 
 
 talk about implementation of DTO on web app and web api side
+
+
+To add a foodITem to a menu this should display a list of all the FoodITems that currently exist
+then select one from this list and add this to the menu
