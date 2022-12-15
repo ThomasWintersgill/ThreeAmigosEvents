@@ -20,7 +20,7 @@ namespace ThAmCo.Events.ServiceLayer
 
         //is there any point in this? or should i just have the one method that gets both the menu and the food items together and only
         //displays the appropriate information
-        public static async Task<IEnumerable<MenuDTO>> GetMenu(HttpClient client)
+        public static async Task<IEnumerable<MenuDTO>> GetMenus(HttpClient client)
         {
             //create a list of menuDTO
             IEnumerable<MenuDTO> menu = new List<MenuDTO>();
@@ -39,22 +39,38 @@ namespace ThAmCo.Events.ServiceLayer
             return menu;
         }
 
-        public static async Task<MenuwithFoodItemDTO> GetMenuFoodItems(HttpClient client, int? id)
+        public static async Task<MenuDTO> GetMenu(HttpClient client, int id)
         {
-            MenuwithFoodItemDTO menuFoodItems = new MenuwithFoodItemDTO();
-            string url = "api/Menus/" + id.ToString();
+            MenuDTO menu = new MenuDTO();
+            HttpResponseMessage response = await client.GetAsync("api/Menus/" + id.ToString());
 
-            HttpResponseMessage response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
-                menuFoodItems = await response.Content.ReadAsAsync<MenuwithFoodItemDTO>();
+                menu = await response.Content.ReadAsAsync<MenuDTO>();
             }
             else
             {
                 Debug.WriteLine("Index received a bad response");
             }
 
-            return menuFoodItems;
+            return menu;
+        }
+        public static async Task<MenuDTO> GetMenu(HttpClient client, int? id)
+        {
+            MenuDTO DTO = new MenuDTO();
+            string url = "api/Menus/" + id.ToString();
+
+            HttpResponseMessage response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                DTO = await response.Content.ReadAsAsync<MenuDTO>();
+            }
+            else
+            {
+                Debug.WriteLine("Index received a bad response");
+            }
+
+            return DTO;
         }
         public static async Task<FoodItemDTO>GetFoodItem(HttpClient client, int id)
         {

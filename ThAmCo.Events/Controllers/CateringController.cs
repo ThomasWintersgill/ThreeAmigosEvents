@@ -180,7 +180,7 @@ namespace ThAmCo.Events.Controllers
         #region manage Menus
         public async Task<ActionResult> MenuIndex()
         {
-            IEnumerable<MenuDTO> menus = await service.GetMenu(client);
+            IEnumerable<MenuDTO> menus = await service.GetMenus(client);
 
             if (menus == null)
             {
@@ -220,45 +220,67 @@ namespace ThAmCo.Events.Controllers
             return View();
         }
 
-        #endregion
-
-        #region manage MenuFoodItems
-        public async Task<IActionResult> MenuFoodItems(int? id)
+        public async Task<ActionResult> MenuDetails(int id)
         {
-            //create the empty DTO.
-            MenuwithFoodItemDTO menu = await service.GetMenuFoodItems(client, id);
+            //Get the appropriate menu from the API in DTO shape
+            var DTO = await service.GetMenu(client, id);
 
-            if (menu == null)
+            if (DTO == null)
             {
                 return BadRequest();
             }
 
-            //Create the empty view models
-            MenuVM menuVM = new MenuVM();
-            MenuFoodItemsVM menuFoodItemVM = new MenuFoodItemsVM();
-          
-            //Assign the Dto attributes to the menuVM attributes
-            menuVM.MenuId = menu.menu.MenuId;
-            menuVM.MenuName = menu.menu.MenuName;
+            //change the shape from DTO to ViewModel
+            var vm = new MenuVM();
 
-            //Assign the foodItem DTO attributes to the FoodItemVM attributes
-            var foodVM = menu.foodItems.Select(item => new FoodItemVM
-            {
-                FoodItemId = item.FoodItemId,
-                Title = item.Title,
-                isVegan = item.isVegan,
-                Description = item.Description,
-                Price = item.Price,
+            vm.MenuId = DTO.MenuId;
+            vm.MenuName = DTO.MenuName;
+            vm.DateCreated = DTO.DateCreated;
 
-
-            }).ToList();
-            //Compose the new view model that consists of both the menu and its food items
-            menuFoodItemVM.menu = menuVM;
-            menuFoodItemVM.FoodItems = foodVM;
-
-            //View is returned
-            return View(menuFoodItemVM);
+            return View(vm);
         }
+
+
+        #endregion
+
+        #region manage MenuFoodItems
+        //public async Task<IActionResult> MenuFoodItems(int? id)
+        //{
+        //    //create the empty DTO.
+        //    //need to create new method in service layer that will get menu with the foood items
+        //    //MenuwithFoodItemDTO menu = await service.GetMenuFoodItems(client, id);
+
+        //    if (menu == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    //Create the empty view models
+        //    MenuVM menuVM = new MenuVM();
+        //    MenuFoodItemsVM menuFoodItemVM = new MenuFoodItemsVM();
+          
+        //    //Assign the Dto attributes to the menuVM attributes
+        //    menuVM.MenuId = menu.menu.MenuId;
+        //    menuVM.MenuName = menu.menu.MenuName;
+
+        //    //Assign the foodItem DTO attributes to the FoodItemVM attributes
+        //    var foodVM = menu.foodItems.Select(item => new FoodItemVM
+        //    {
+        //        FoodItemId = item.FoodItemId,
+        //        Title = item.Title,
+        //        isVegan = item.isVegan,
+        //        Description = item.Description,
+        //        Price = item.Price,
+
+
+        //    }).ToList();
+        //    //Compose the new view model that consists of both the menu and its food items
+        //    menuFoodItemVM.menu = menuVM;
+        //    menuFoodItemVM.FoodItems = foodVM;
+
+        //    //View is returned
+        //    return View(menuFoodItemVM);
+        //}
 
         #endregion
 
