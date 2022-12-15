@@ -99,6 +99,16 @@ namespace ThAmCo.Events.ServiceLayer
 
         }
 
+        public static async Task CreateMenu(HttpClient client, MenuVM vm)
+        {
+            //Transform the Menu VM to a Menu DTO.
+            var menu = VMmenuToDTOmenu(vm);
+
+            //Send a post request with the food in the DTO shape.
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Menus", menu);
+
+        }
+
         //Takes a foodItem View Mdoel and returns a foodItemDTO
         public static FoodItemDTO VMfoodToDTOfood(FoodItemVM foodVM)
         {
@@ -114,6 +124,16 @@ namespace ThAmCo.Events.ServiceLayer
 
         }
 
+        //Takes a viewmodel menu and returns a DTO menu
+        public static MenuDTO VMmenuToDTOmenu(MenuVM menuVM)
+        {
+            var menu = new MenuDTO();
+            menu.MenuId = menuVM.MenuId;
+            menu.MenuName = menuVM.MenuName;
+            menu.DateCreated = menu.DateCreated;
+
+            return menu;
+        }
 
 
 

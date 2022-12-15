@@ -4,6 +4,10 @@ namespace ThAmCo.Catering.Data
 {
     public class Menu
     {
+        public Menu()
+        {
+        }
+
         public Menu(int menuId, string menuName, DateTime dateCreated)
         {
             MenuId = menuId;

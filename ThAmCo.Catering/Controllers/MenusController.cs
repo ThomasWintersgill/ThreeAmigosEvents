@@ -120,8 +120,16 @@ namespace ThAmCo.Catering.Controllers
         // POST: api/Menus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Menu>> PostMenu(Menu menu)
+        public async Task<ActionResult<MenuDTO>> PostMenu(MenuDTO menuDTO)
         {
+
+            Menu menu = new Menu()
+            {
+                MenuId = menuDTO.MenuId,
+                MenuName = menuDTO.MenuName,
+                DateCreated = menuDTO.DateCreated
+            };
+         
             _context.Menu.Add(menu);
             await _context.SaveChangesAsync();
 

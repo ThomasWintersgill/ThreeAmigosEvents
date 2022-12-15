@@ -1,4 +1,5 @@
-﻿using ThAmCo.Catering.Data;
+﻿using System.ComponentModel.DataAnnotations;
+using ThAmCo.Catering.Data;
 using ThAmCo.Events.Data;
 
 namespace ThAmCo.Events.Models
@@ -11,9 +12,15 @@ namespace ThAmCo.Events.Models
 
         public int MenuId { get; set; }
 
+        [Required(ErrorMessage = "You must provied a Menu Name")]
+        [MaxLength(50)]
         public string MenuName  { get; set; }
 
-        public List<FoodItem> FoodItems { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateCreated { get; set; }
+
+        //public List<FoodItem> FoodItems { get; set; }
+
     }
 
     public class MenuFoodItemsVM

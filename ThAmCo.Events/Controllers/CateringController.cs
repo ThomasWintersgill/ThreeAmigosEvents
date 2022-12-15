@@ -195,6 +195,34 @@ namespace ThAmCo.Events.Controllers
 
             return View(vm);
         }
+
+        public IActionResult CreateMenu()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateMenu(MenuVM vm)
+        {
+            try
+            {
+                //Call the service layer method to send an API request to create a Menu
+                await service.CreateMenu(client, vm);
+
+                return RedirectToAction("MenuIndex");
+            }
+            catch (Exception ex)
+            {
+                var message = ex.InnerException.Message.ToString();
+                return View();
+            }
+
+            return View();
+        }
+
+        #endregion
+
+        #region manage MenuFoodItems
         public async Task<IActionResult> MenuFoodItems(int? id)
         {
             //create the empty DTO.
