@@ -107,7 +107,7 @@ namespace ThAmCo.Events.Controllers
                 var message = ex.InnerException.Message.ToString();
                 return View();
             }
-            return View();
+            
         }
 
         public IActionResult CreateFood()
@@ -240,6 +240,50 @@ namespace ThAmCo.Events.Controllers
             return View(vm);
         }
 
+        public async Task<ActionResult> EditMenu(int id)
+        {
+            MenuVM vm = new MenuVM();
+
+            //Calls the method to get the FoodItem from the web service with the corresponding ID.
+            var menu = service.GetMenu(client, id);
+
+            if (menu == null)
+            {
+                return Problem("Entity set 'CateringDbContext.Menu'  is null.");
+            }
+            if (menu != null)
+            {
+                //Set the foodItem view model attributes to that of the FoodItemDTO that is returned from the api.
+                vm.MenuId = menu.Result.MenuId;
+                vm.MenuName = menu.Result.MenuName;
+                vm.DateCreated = menu.Result.DateCreated;
+            }
+            return View(vm);
+        }
+
+        //working with POST but not PUT
+        [HttpPost]
+        public async Task<ActionResult> EditMenu(MenuVM vm)
+
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("https://localhost:7173");
+            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+            var menu = service.VMmenuToDTOmenu(vm);
+
+            try
+            {
+                HttpResponseMessage response = await client.PutAsJsonAsync("api/Menus" + "/" + vm.MenuId.ToString(), menu);
+                return RedirectToAction("MenuIndex");
+            }
+            catch (Exception ex)
+            {
+                var message = ex.InnerException.Message.ToString();
+                return View();
+            }
+
+        }
+
 
         #endregion
 
@@ -258,7 +302,7 @@ namespace ThAmCo.Events.Controllers
         //    //Create the empty view models
         //    MenuVM menuVM = new MenuVM();
         //    MenuFoodItemsVM menuFoodItemVM = new MenuFoodItemsVM();
-          
+
         //    //Assign the Dto attributes to the menuVM attributes
         //    menuVM.MenuId = menu.menu.MenuId;
         //    menuVM.MenuName = menu.menu.MenuName;
@@ -284,6 +328,6 @@ namespace ThAmCo.Events.Controllers
 
         #endregion
 
-        
+
     }
 }

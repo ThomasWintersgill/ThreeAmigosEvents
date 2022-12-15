@@ -56,8 +56,15 @@ namespace ThAmCo.Catering.Controllers
         // PUT: api/Menus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenu(int id, Menu menu)
+        public async Task<IActionResult> PutMenu(int id, MenuDTO DTO)
         {
+            Menu menu = new Menu()
+            {
+                MenuId = DTO.MenuId,
+                MenuName = DTO.MenuName,
+                DateCreated = DTO.DateCreated,
+            };
+
             if (id != menu.MenuId)
             {
                 return BadRequest();
