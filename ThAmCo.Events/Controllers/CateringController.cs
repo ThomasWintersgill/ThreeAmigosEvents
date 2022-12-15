@@ -164,15 +164,16 @@ namespace ThAmCo.Events.Controllers
             try
             {
                 var deleteTask = client.DeleteAsync("api/FoodItems/" + vm.FoodItemId.ToString());
-                
+                return RedirectToAction("FoodIndex");
+
             }
             catch (Exception ex)
             {
                 var message = ex.InnerException.Message.ToString();
 
             }
+            return View();
 
-            return RedirectToAction("FoodIndex");
 
         }
         #endregion
@@ -284,6 +285,47 @@ namespace ThAmCo.Events.Controllers
 
         }
 
+        public async Task<ActionResult> DeleteMenu(int id)
+        {
+           MenuVM vm = new MenuVM();
+
+            //Calls the api method to get the corresponding Menu, returns as a DTO
+            var menu = service.GetMenu(client, id);
+
+            if (menu == null)
+            {
+                return Problem("Entity set 'CateringDbContext.FoodItems'  is null.");
+            }
+            if (menu != null)
+            {
+                vm.MenuId = menu.Result.MenuId;
+                vm.MenuName = menu.Result.MenuName;
+                vm.DateCreated = menu.Result.DateCreated;
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost, ActionName("DeleteMenu")]
+        public async Task<ActionResult> DeleteMenuConfirmed(MenuVM vm)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("https://localhost:7173");
+            try
+            {
+                var deleteTask = client.DeleteAsync("api/Menus/" + vm.MenuId.ToString());
+                return RedirectToAction("MenuIndex");
+
+            }
+            catch (Exception ex)
+            {
+                var message = ex.InnerException.Message.ToString();
+
+            }
+
+            return RedirectToAction("FoodIndex");
+
+        }
 
         #endregion
 
