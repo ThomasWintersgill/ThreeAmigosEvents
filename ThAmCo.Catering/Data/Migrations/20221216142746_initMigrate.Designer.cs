@@ -11,7 +11,7 @@ using ThAmCo.Catering.Data;
 namespace ThAmCo.Catering.Data.Migrations
 {
     [DbContext(typeof(CateringContext))]
-    [Migration("20221117150637_initMigrate")]
+    [Migration("20221216142746_initMigrate")]
     partial class initMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,11 +49,6 @@ namespace ThAmCo.Catering.Data.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("TEXT");
 
@@ -81,7 +76,6 @@ namespace ThAmCo.Catering.Data.Migrations
                         new
                         {
                             FoodItemId = 1,
-                            Category = "Side",
                             DateCreated = new DateTime(2015, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "lovely chips",
                             IsVegan = true,
@@ -91,7 +85,6 @@ namespace ThAmCo.Catering.Data.Migrations
                         new
                         {
                             FoodItemId = 2,
-                            Category = "Entree",
                             DateCreated = new DateTime(2015, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "just a sosig",
                             IsVegan = false,

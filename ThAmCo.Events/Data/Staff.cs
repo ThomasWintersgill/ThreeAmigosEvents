@@ -45,6 +45,7 @@ namespace ThAmCo.Events.Data
         public string ContactEmail { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
         public List<Staffing> Events { get; set; }
     }

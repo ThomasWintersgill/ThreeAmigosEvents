@@ -29,8 +29,9 @@ namespace ThAmCo.Catering.Data
             base.OnConfiguring(optionsBuilder);
 
             optionsBuilder.UseSqlite($"Data Source = {DbPath}");
-
             
+
+
 
         }
 

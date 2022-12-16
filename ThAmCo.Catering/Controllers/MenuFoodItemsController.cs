@@ -28,20 +28,8 @@ namespace ThAmCo.Catering.Controllers
             return await _context.MenuFoodItems.ToListAsync();
         }
 
-        // GET: api/MenuFoodItems/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MenuFoodItem>> GetMenuFoodItem(int id)
-        {
-            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id);
-
-            if (menuFoodItem == null)
-            {
-                return NotFound();
-            }
-
-            return menuFoodItem;
-        }
-
+       
+        // Get the Menu by ID and all of the FoodItems belonging to that menu
         // GET: api/Menus/5
         //Menu with food items included
         [HttpGet("{id}")]
@@ -92,37 +80,8 @@ namespace ThAmCo.Catering.Controllers
             return DTO;
         }
 
-        // PUT: api/MenuFoodItems/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenuFoodItem(int id, MenuFoodItem menuFoodItem)
-        {
-            if (id != menuFoodItem.FoodItemId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(menuFoodItem).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MenuFoodItemExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
+       
+        // Add a FoodItem to a menu
         // POST: api/MenuFoodItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -148,23 +107,9 @@ namespace ThAmCo.Catering.Controllers
             return CreatedAtAction("GetMenuFoodItem", new { id = menuFoodItem.FoodItemId }, menuFoodItem);
         }
 
-        // DELETE: api/MenuFoodItems/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMenuFoodItem(int id)
-        {
-            var menuFoodItem = await _context.MenuFoodItems.FindAsync(id);
-            if (menuFoodItem == null)
-            {
-                return NotFound();
-            }
+   
 
-            _context.MenuFoodItems.Remove(menuFoodItem);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        //Remove FoodItem from a menu
+        //Remove FoodItem from a menu, Takes Menu Id and FoodItem Id
         [HttpDelete()]
         public async Task<IActionResult> RemoveFoodItem(int menuId, int FoodItemId)
         {

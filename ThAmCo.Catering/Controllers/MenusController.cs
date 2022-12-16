@@ -110,6 +110,7 @@ namespace ThAmCo.Catering.Controllers
             return CreatedAtAction("GetMenu", new { id = menu.MenuId }, menu);
         }
 
+
         // DELETE: api/Menus/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMenu(int id)
@@ -125,6 +126,11 @@ namespace ThAmCo.Catering.Controllers
 
             return NoContent();
         }
+
+        //public IActionResult AddFood(int menuId, int FoodItemId)
+        //{
+
+        //}
 
         private bool MenuExists(int id)
         {

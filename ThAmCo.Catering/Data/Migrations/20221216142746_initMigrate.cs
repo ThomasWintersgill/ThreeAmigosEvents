@@ -16,7 +16,6 @@ namespace ThAmCo.Catering.Data.Migrations
                     FoodItemId = table.Column<int>(type: "INTEGER", maxLength: 3, nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Category = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     UnitPrice = table.Column<int>(type: "INTEGER", nullable: false),
                     IsVegan = table.Column<bool>(type: "INTEGER", nullable: false),
@@ -88,13 +87,13 @@ namespace ThAmCo.Catering.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "FoodItems",
-                columns: new[] { "FoodItemId", "Category", "DateCreated", "Description", "IsVegan", "Title", "UnitPrice" },
-                values: new object[] { 1, "Side", new DateTime(2015, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "lovely chips", true, "chips", 250 });
+                columns: new[] { "FoodItemId", "DateCreated", "Description", "IsVegan", "Title", "UnitPrice" },
+                values: new object[] { 1, new DateTime(2015, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "lovely chips", true, "chips", 250 });
 
             migrationBuilder.InsertData(
                 table: "FoodItems",
-                columns: new[] { "FoodItemId", "Category", "DateCreated", "Description", "IsVegan", "Title", "UnitPrice" },
-                values: new object[] { 2, "Entree", new DateTime(2015, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "just a sosig", false, "sosig", 300 });
+                columns: new[] { "FoodItemId", "DateCreated", "Description", "IsVegan", "Title", "UnitPrice" },
+                values: new object[] { 2, new DateTime(2015, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "just a sosig", false, "sosig", 300 });
 
             migrationBuilder.InsertData(
                 table: "Menu",
