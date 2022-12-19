@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using ThAmCo.Events.Data;
 
+
 namespace ThAmCo.Events.Models
 {
     public class StaffEventsListVM

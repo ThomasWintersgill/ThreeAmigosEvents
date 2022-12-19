@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
 using ThAmCo.Events.Models;
 
+
 namespace ThAmCo.Events.Controllers
 {
     public class GuestsController : Controller

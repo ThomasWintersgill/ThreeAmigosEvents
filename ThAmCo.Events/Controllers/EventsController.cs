@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
 using ThAmCo.Events.Models;
 
+
 namespace ThAmCo.Events.Controllers
 {
     public class EventsController : Controller
@@ -20,6 +21,7 @@ namespace ThAmCo.Events.Controllers
             _context = context;
         }
         #endregion
+
         #region CRUD
         // GET: Events
         public async Task<IActionResult> Index()

@@ -6,7 +6,7 @@ namespace ThAmCo.Events.Models
 {
     public class GuestViewModel
     {
-        
+
         public int GuestId { get; set; }
 
         [Required(ErrorMessage = "You must provide a first name")]

@@ -1,4 +1,4 @@
-﻿@model ThAmCo.Events.Data.Event
+﻿@model ThAmCo.Events.Models.EventVM
 
 @{
     ViewData["Title"] = "Create";
@@ -6,12 +6,17 @@
 
 <h1>Create</h1>
 
-<h4>Event</h4>
+<h4>EventVM</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EventId" class="control-label"></label>
+                <input asp-for="EventId" class="form-control" />
+                <span asp-validation-for="EventId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="EventTitle" class="control-label"></label>
                 <input asp-for="EventTitle" class="form-control" />
@@ -27,22 +32,39 @@
                 <input asp-for="EventTime" class="form-control" />
                 <span asp-validation-for="EventTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EventType" class="control-label"></label>
-                <input asp-for="EventType" class="form-control" />
-                <span asp-validation-for="EventType" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasFirstAider" /> @Html.DisplayNameFor(model => model.HasFirstAider)
+                </label>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div>
+                <form>
+                    <div class"form-group">
+                        <label for="EventType" class="control-label">Event Type:</label>
+                        <select id="EventType" class="form-control"></select>
+                    </div>
+                </form>
             </div>
+           
+           
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+<div class="col-md-4">
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
 </div>
+
+
+
+<a asp-action="Index">Back to List</a>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="~/js/EventType.js"></script>
 }
