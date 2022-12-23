@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ThAmCo.Events.Data;
 using ThAmCo.Events.Models;
+using ThAmCo.Events.DTOs;
 
 
 namespace ThAmCo.Events.Controllers
@@ -48,9 +49,39 @@ namespace ThAmCo.Events.Controllers
         }
 
         // GET: Events/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var eventList = await GetEventTypes();
+
+            ViewData["EventType"] = new SelectList(eventList, "Id", "Title");
+
             return View();
+        }
+
+        // Call web service and get a list of categories
+        private async Task<List<EventTypeDTO>> GetEventTypes()
+        {
+            var eventTypes = new List<EventTypeDTO>().AsEnumerable();
+
+            // Create and initial Http Client
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("https://localhost:7088/");
+            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+
+            // Call web service
+            HttpResponseMessage response = await client.GetAsync("api/EventTypes");
+            if (response.IsSuccessStatusCode)
+            {
+                // Decode response into a DTO
+                eventTypes = await response.Content.ReadAsAsync<IEnumerable<EventTypeDTO>>();
+            }
+            else
+            {
+                throw new ApplicationException("Something went wrong calling the API:" +
+                             response.ReasonPhrase);
+            }
+
+            return eventTypes.ToList();
         }
 
         // POST: Events/Create
@@ -66,6 +97,11 @@ namespace ThAmCo.Events.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            var eventList = await GetEventTypes();
+
+            ViewData["EventType"] = new SelectList(eventList, "Id", "Title");
+
             return View(@event);
         }
 

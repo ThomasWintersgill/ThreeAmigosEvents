@@ -39,10 +39,13 @@
             </div>
             <div>
                 <form>
-                    <div class"form-group">
-                        <label for="EventType" class="control-label">Event Type:</label>
-                        <select id="EventType" class="form-control"></select>
+                    <div class="form-group">
+                        <label asp-for="EventType" class="control-label"></label>
+                        <select asp-for="EventType" class="form-control"
+                                asp-items="ViewBag.EventType"></select>
                     </div>
+
+
                 </form>
             </div>
            
@@ -66,5 +69,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript" src="~/js/EventType.js"></script>
+    
 }

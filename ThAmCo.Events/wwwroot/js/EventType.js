@@ -11,6 +11,7 @@ function loadEventType() {
         crossDomain: true,
         data: "{}",
         success: function (result) {
+            console.log(result);
             $('#EventType').html('');
             var options = '';
             options += '<option value="Select">Select</option>';
