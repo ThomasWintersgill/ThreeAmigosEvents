@@ -29,6 +29,7 @@ namespace ThAmCo.Events.Models
 
         [Display(Name = "Event Type")]
         [Required]
+        [MinLength(3), MaxLength(3)]
         //foreign key into the venues data model
         public string EventType { get; set; }
 

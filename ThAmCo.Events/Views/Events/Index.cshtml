@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ThAmCo.Events.Data.Event>
+﻿@model IEnumerable<EventVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,6 +12,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventTitle)
             </th>
@@ -30,6 +33,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EventTitle)
             </td>

@@ -27,8 +27,20 @@ namespace ThAmCo.Events.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Events.ToListAsync());
+            //Type projection from Model into ViewModel.
+            var vm = _context.Events.Select(item => new EventVM
+            {
+                EventId = item.EventId,
+                EventDate = item.EventDate,
+                EventTime = item.EventTime,
+                EventTitle = item.EventTitle,
+                EventType = item.EventType,
+
+            }).ToList();
+
+            return View(vm);
         }
+
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
