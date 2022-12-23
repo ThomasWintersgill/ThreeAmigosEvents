@@ -58,38 +58,14 @@ namespace ThAmCo.Events.Controllers
             return View();
         }
 
-        // Call web service and get a list of categories
-        private async Task<List<EventTypeDTO>> GetEventTypes()
-        {
-            var eventTypes = new List<EventTypeDTO>().AsEnumerable();
-
-            // Create and initial Http Client
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new System.Uri("https://localhost:7088/");
-            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
-
-            // Call web service
-            HttpResponseMessage response = await client.GetAsync("api/EventTypes");
-            if (response.IsSuccessStatusCode)
-            {
-                // Decode response into a DTO
-                eventTypes = await response.Content.ReadAsAsync<IEnumerable<EventTypeDTO>>();
-            }
-            else
-            {
-                throw new ApplicationException("Something went wrong calling the API:" +
-                             response.ReasonPhrase);
-            }
-
-            return eventTypes.ToList();
-        }
+        
 
         // POST: Events/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventTitle,EventDate,EventTime,EventType")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventTitle,EventDate,EventTime,EventType")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -98,6 +74,7 @@ namespace ThAmCo.Events.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            //Fill Event type box incase valdiation fails.
             var eventList = await GetEventTypes();
 
             ViewData["EventType"] = new SelectList(eventList, "Id", "Title");
@@ -120,6 +97,7 @@ namespace ThAmCo.Events.Controllers
             }
             return View(@event);
         }
+
 
         // POST: Events/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -345,6 +323,32 @@ namespace ThAmCo.Events.Controllers
             { Text = item.Forename + " " + item.Surname, Value = item.StaffId.ToString() });
             vm.Staff.AddRange(selectItemList);
             return vm;
+        }
+
+        // Call web service and get a list of categories
+        private async Task<List<EventTypeDTO>> GetEventTypes()
+        {
+            var eventTypes = new List<EventTypeDTO>().AsEnumerable();
+
+            // Create and initial Http Client
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new System.Uri("https://localhost:7088/");
+            client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+
+            // Call web service
+            HttpResponseMessage response = await client.GetAsync("api/EventTypes");
+            if (response.IsSuccessStatusCode)
+            {
+                // Decode response into a DTO
+                eventTypes = await response.Content.ReadAsAsync<IEnumerable<EventTypeDTO>>();
+            }
+            else
+            {
+                throw new ApplicationException("Something went wrong calling the API:" +
+                             response.ReasonPhrase);
+            }
+
+            return eventTypes.ToList();
         }
         #endregion
     }

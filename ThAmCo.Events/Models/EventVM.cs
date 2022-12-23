@@ -32,8 +32,6 @@ namespace ThAmCo.Events.Models
         //foreign key into the venues data model
         public string EventType { get; set; }
 
-        public List<GuestBooking> Guests { get; set; }
-
-        public List<Staffing> Staff { get; set; }
+       
     }
 }
