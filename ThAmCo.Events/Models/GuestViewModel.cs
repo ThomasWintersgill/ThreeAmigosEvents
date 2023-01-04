@@ -20,7 +20,7 @@ namespace ThAmCo.Events.Models
         public string Surname { get; set; }
 
         [Display(Name = "Mobile Number")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$", ErrorMessage = "Not a valid phone number")]
         public string ContactNumber { get; set; }
 
         [Required]

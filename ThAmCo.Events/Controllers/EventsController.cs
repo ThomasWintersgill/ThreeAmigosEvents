@@ -302,6 +302,27 @@ namespace ThAmCo.Events.Controllers
 
         #region manage EventGuests
 
+        public async Task<IActionResult> Guests(int? id)
+        {
+            if (id == null || _context.Events == null)
+            {
+                return NotFound();
+            }
+
+            var eventt = await _context.Events.FirstOrDefaultAsync(m => m.EventId == id);
+            if (eventt == null)
+            {
+                return NotFound();
+            }
+
+            //Create the view model Staff with a list of events.
+            EventGuestVM vm = new EventGuestVM();
+            vm.guests = GetEventsGuest(id);
+            vm.Event = eventt;
+
+            //View is returned
+            return View(vm);
+        }
         #endregion
 
         #region private methods
@@ -310,6 +331,7 @@ namespace ThAmCo.Events.Controllers
           return _context.Events.Any(e => e.EventId == id);
         }
 
+        //Takes an Event Id and Returns a list of Staff associated with that particular Event.
         private List<Staff> GetEventsStaff(int? id)
         {
             var Staff = from Staffs in _context.Staff
@@ -318,6 +340,17 @@ namespace ThAmCo.Events.Controllers
 
             List<Staff> StaffList = Staff.ToList();
             return StaffList;
+        }
+
+        //Takes an Event Id and Returns a list of Guest associated with that particular Event.
+        private List<Guest> GetEventsGuest(int? id)
+        {
+            var guest = from Guest in _context.Guests
+                        where Guest.Events.Any(c => c.EventID == id)
+                        select Guest;
+
+            List<Guest> GuestList = guest.ToList();
+            return GuestList;
         }
 
         private static EventStaffListVM AddStaffViewModel(Event Event, IEnumerable<Staff> notEventStaff)

@@ -1,0 +1,55 @@
+﻿@model EventGuestVM
+@{
+    ViewData["Title"] = "Guests";
+}
+
+<h1>@Model.Event.EventTitle Guests</h1>
+
+@{
+    if (Model.guests.Count() > 0)
+    {
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        GuestID
+                    </th>
+                    <th>
+                        Forename
+                    </th>
+                    <th>
+                        Surname
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.guests)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuestId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Forename)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Surname)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Remove","Remove","Events", new { StaffID = item.GuestId, EventId = @Model.Event.EventId})
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <p>
+            This Event has no Guests
+        </p>
+    }
+}
