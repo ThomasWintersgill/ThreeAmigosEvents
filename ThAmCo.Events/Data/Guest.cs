@@ -39,6 +39,8 @@ namespace ThAmCo.Events.Data
 
         public string ContactEmail { get; set; }
 
+        public bool Attended { get; set; }
+
         public List<GuestBooking> Events { get; set; }
     }
 }

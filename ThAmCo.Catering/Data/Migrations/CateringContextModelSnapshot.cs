@@ -37,7 +37,7 @@ namespace ThAmCo.Catering.Data.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("Foodbookings");
+                    b.ToTable("Foodbookings", (string)null);
                 });
 
             modelBuilder.Entity("ThAmCo.Catering.Data.FoodItem", b =>
@@ -68,7 +68,7 @@ namespace ThAmCo.Catering.Data.Migrations
 
                     b.HasKey("FoodItemId");
 
-                    b.ToTable("FoodItems");
+                    b.ToTable("FoodItems", (string)null);
 
                     b.HasData(
                         new
@@ -108,7 +108,7 @@ namespace ThAmCo.Catering.Data.Migrations
 
                     b.HasKey("MenuId");
 
-                    b.ToTable("Menu");
+                    b.ToTable("Menu", (string)null);
 
                     b.HasData(
                         new
@@ -137,7 +137,7 @@ namespace ThAmCo.Catering.Data.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("MenuFoodItems");
+                    b.ToTable("MenuFoodItems", (string)null);
 
                     b.HasData(
                         new

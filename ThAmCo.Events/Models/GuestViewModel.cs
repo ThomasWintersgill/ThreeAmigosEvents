@@ -32,6 +32,8 @@ namespace ThAmCo.Events.Models
         [Display(Name = "Email Address")]
         public string ContactEmail { get; set; }
 
+        public bool Attended { get; set; }
+
         public List<GuestBooking> Events { get; set; }
     }
 }
