@@ -77,7 +77,7 @@ namespace ThAmCo.Events.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventTitle,EventDate,EventTime,EventType")] Event @event)
+        public async Task<IActionResult> Create( Event @event)
         {
             if (ModelState.IsValid)
             {
