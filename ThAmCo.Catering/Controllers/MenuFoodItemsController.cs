@@ -81,12 +81,18 @@ namespace ThAmCo.Catering.Controllers
         }
 
        
-        // Add a FoodItem to a menu
+        // Add a FoodItem to a menu, takes the ID of the menu and ID of the FoodItem.
         // POST: api/MenuFoodItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MenuFoodItem>> PostMenuFoodItem(MenuFoodItem menuFoodItem)
+        public async Task<ActionResult<MenuFoodItem>> PostMenuFoodItem(int menuId, int FoodItemId)
         {
+            if (menuId == null || FoodItemId == null || _context.MenuFoodItems == null)
+            {
+                return NotFound();
+            }
+            MenuFoodItem menuFoodItem = new MenuFoodItem(menuId, FoodItemId);
+
             _context.MenuFoodItems.Add(menuFoodItem);
             try
             {
@@ -104,14 +110,14 @@ namespace ThAmCo.Catering.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMenuFoodItem", new { id = menuFoodItem.FoodItemId }, menuFoodItem);
+            return CreatedAtAction("GetMenuWithFood", new { id = menuFoodItem.FoodItemId }, menuFoodItem);
         }
 
    
 
         //Remove FoodItem from a menu, Takes Menu Id and FoodItem Id
         [HttpDelete()]
-        public async Task<IActionResult> RemoveFoodItem(int menuId, int FoodItemId)
+        public async Task<IActionResult> RemoveFoodItem(int? menuId, int? FoodItemId)
         {
             if (menuId == null || FoodItemId == null || _context.MenuFoodItems == null)
             {

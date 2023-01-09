@@ -61,12 +61,13 @@ namespace ThAmCo.Catering.Controllers
             return DTO;
         }
 
+        //Edit the properties of a FoodItem.
         // PUT: api/FoodItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFoodItem(int id, FoodItemDTO DTO)
         {
-            //THIS SHOULD BE MADE INTO A PRIVATE METHOD,AS IS USED OFTEN?
+            //Transform the DTO shape into the model shape.
             FoodItem food = new FoodItem();
             {
                 food.FoodItemId = DTO.FoodItemId;

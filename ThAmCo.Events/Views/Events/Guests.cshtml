@@ -40,12 +40,14 @@
                             
                         </td>
                         <td>
-                            <input type="checkbox" name="Register Attendance" /><br> <label for="Register Attendance">Register Attendance</label><br>
-                            
+
+                            <input type="checkbox" id="RegisterAttendance" name="RegisterAttendance" value= "">
+                            <label for="RegisterAttendance"> @Html.DisplayFor(modelItem => item.GuestId) </label><br>
+           
                         </td>
                     </tr>
                 }
-            </tbody>
+            </tbody> 
         </table>
 
     }
@@ -55,4 +57,8 @@
             This Event has no Guests
         </p>
     }
+}
+@section Scripts
+    {
+    <script type="text/javascript" src="~/js/RegisterAttendance.js"></script>
 }
