@@ -5,6 +5,8 @@
 
 <h1>@Model.Event.EventTitle Guests</h1>
 <h2>The total number of guest on this event is @Model.guests.Count() </h2>
+
+
 @{
     if (Model.guests.Count() > 0)
     {
@@ -41,14 +43,16 @@
                         </td>
                         <td>
 
-                            <input type="checkbox" id="RegisterAttendance" name="RegisterAttendance" value= "">
-                            <label for="RegisterAttendance"> @Html.DisplayFor(modelItem => item.GuestId) </label><br>
+                            <input type="checkbox" id="RegisterAttendance") name="" value= "@Html.DisplayFor(modelItem => item.GuestId)">
+                            <label for="RegisterAttendance"> Register Attendance </label><br>
+                            
            
                         </td>
                     </tr>
                 }
             </tbody> 
         </table>
+    
 
     }
     else

@@ -291,7 +291,20 @@ namespace ThAmCo.Events.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task UpdateAttendance(int[] checkboxValues)
+        {   
+            foreach (int id in checkboxValues)
+            {
+                var guest = await _context.Guests.FindAsync(id);
+                guest.Attended = true;
+
+            }       
+        }
         #endregion
+
+
 
         #region private methods
         private bool GuestExists(int id)
