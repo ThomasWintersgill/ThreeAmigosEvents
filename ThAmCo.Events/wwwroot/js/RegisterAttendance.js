@@ -10,13 +10,11 @@ $(document).ready(function () {
         
         });
 
-  
-   
-
 });
 
 
 function validateCheckboxes() {
+    
     var checkboxes = document.getElementsByName('RegisterAttendance').checked;
     var checkboxValues = [];
     for (var i = 0, n = checkboxes.length; i < n; i++) {
@@ -24,8 +22,12 @@ function validateCheckboxes() {
             checkboxValues.push(checkboxes[i].value);
 
         }
+        else {
+            alert("didnt work")
+        }
     }
     var data = { checkboxValues: checkboxValues };
+    alert("data is");
 
     $.ajax({
         url: "https://localhost:7004/Guests/RegisterAttendance",
