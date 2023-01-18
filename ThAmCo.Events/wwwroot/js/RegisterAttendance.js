@@ -2,9 +2,8 @@
 
 $(document).ready(function () {
 
-    $('#RegisterAttendance').click(function () {
-        alert("changed");
-
+    $('#checkboxGroup').click(function () {
+        
         validateCheckboxes();
     
         
@@ -12,15 +11,18 @@ $(document).ready(function () {
 
 });
 
-
 function validateCheckboxes() {
-    
-    var checkboxes = document.getElementsByName('RegisterAttendance').checked;
-    var checkboxValues = [];
-    for (var i = 0, n = checkboxes.length; i < n; i++) {
-        if (checkboxes[i].checked) {
-            checkboxValues.push(checkboxes[i].value);
 
+    var checkboxes = document.getElementsByName('checkboxGroup').checked;
+    //will hold a list of values for all the checked checkboxes
+    var checkboxValues = [];
+    alert("clicked")
+    
+    for (var i = 0, n = checkboxes.length; i < n; i++) {
+        
+        if (checkboxes[i].checked) {
+            
+            checkboxValues.push(checkboxes[i].value);
         }
         else {
             alert("didnt work")

@@ -292,6 +292,8 @@ namespace ThAmCo.Events.Controllers
             return RedirectToAction("Index");
         }
 
+        //Takes an array of values, each value will correspond to a guestID.
+        //Each guest entity will then have its "Attended" value updated.
         [HttpPost]
         public async Task UpdateAttendance(int[] checkboxValues)
         {   

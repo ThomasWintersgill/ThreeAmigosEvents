@@ -18,8 +18,7 @@ namespace ThAmCo.Events.ServiceLayer
         }
         #endregion
 
-        //is there any point in this? or should i just have the one method that gets both the menu and the food items together and only
-        //displays the appropriate information
+        //Get a list of menus from the catering API in DTO shape.
         public static async Task<IEnumerable<MenuDTO>> GetMenus(HttpClient client)
         {
             //create a list of menuDTO

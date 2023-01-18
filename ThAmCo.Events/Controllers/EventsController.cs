@@ -370,7 +370,7 @@ namespace ThAmCo.Events.Controllers
             return vm;
         }
 
-        // Call web service and get a list of categories
+        // Call web service and get a list of categories in DTO shape.
         private async Task<List<EventTypeDTO>> GetEventTypes()
         {
             var eventTypes = new List<EventTypeDTO>().AsEnumerable();
